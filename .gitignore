@@ -1,0 +1,32 @@
+# .idea
+.idea
+
+# node_modules
+node_modules
+
+# npm-debug.log
+npm-debug.log
+bq-square-admin/npm-debug.log
+
+# yarn-error.log
+yarn-error.log
+bq-square-admin/yarn-error.log
+
+# dist
+dist
+
+# python lib
+src/lib
+
+# .pyc
+*.pyc
+
+/src/data/
+
+/bq-square-admin/src/app/*.js
+/bq-square-admin/src/environments/environment.prod.ts
+/bq-square-admin/src/environments/environment.ts
+
+# app.yaml
+app.yaml
+dev_app.yaml
