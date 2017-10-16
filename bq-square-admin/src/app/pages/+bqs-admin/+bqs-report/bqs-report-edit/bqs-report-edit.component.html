@@ -1,0 +1,59 @@
+<button mat-mini-fab class="fab" (click)="onSumbit()">
+  <mat-icon>save</mat-icon>
+</button>
+
+<div class="bqs-primary-header">
+  <h1>{{editMode}} a Report</h1>
+</div>
+
+<div *ngIf="loading | async">
+  <mat-spinner [diameter]="30"></mat-spinner>
+</div>
+
+<form [connect]="['admin', 'report', 'form']">
+  <div class="mat-elevation-z8">
+
+    <div *ngIf="editMode == 'Create'">
+      <mat-form-field>
+        <input matInput placeholder="ID"
+               name="id" ngControl ngModel>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field>
+        <input matInput placeholder="Name"
+               name="name" ngControl ngModel>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field>
+                <textarea matInput placeholder="Description"
+                          name="description" ngControl ngModel></textarea>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <bqs-ace-editor mode="json" name="format" ngControl ngModel>
+      </bqs-ace-editor>
+    </div>
+
+
+    <div>
+      <tag-input placeholder="Tags" secondaryPlaceholder="Tags"
+                 [modelAsStrings]="true" [theme]="'foundation-theme'"
+                 name="tag" ngControl ngModel>
+      </tag-input>
+    </div>
+
+    <div>
+      <mat-form-field>
+        <input matInput placeholder="Order" type="number"
+               name="order" ngControl ngModel>
+      </mat-form-field>
+    </div>
+
+
+  </div>
+</form>

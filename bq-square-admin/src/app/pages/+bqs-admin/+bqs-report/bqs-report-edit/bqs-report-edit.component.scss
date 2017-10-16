@@ -1,0 +1,16 @@
+form > div {
+  width: 90%;
+  margin: 20px auto;
+  display: flex;
+  -webkit-flex-direction: column; /* Safari */
+  flex-direction:         column;
+
+  > * {
+    margin: 25px;
+  }
+
+  textarea {
+    min-width: 350px;
+  }
+}
+

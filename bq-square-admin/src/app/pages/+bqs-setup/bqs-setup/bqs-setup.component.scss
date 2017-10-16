@@ -1,0 +1,64 @@
+:host {
+  background: #00bcd4;
+  color: #ffffff;
+  display: flex;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+
+.bqs-setup-container {
+  max-width: 480px;
+
+  > * {
+    margin-top: 50px;
+  }
+}
+
+.bqs-setup-form {
+
+  .form-input {
+    background: #ffffff;
+    padding: 16px;
+    width: 400px;
+    color: #000000;
+
+    .info {
+      >* {
+        margin-left: 15px;
+        vertical-align: middle;
+        text-transform: none;
+        line-height: 32px;
+      }
+
+      .avatar {
+        -webkit-background-size: 32px 32px;
+        background-size: 32px 32px;
+        -webkit-border-radius: 50%;
+        border-radius: 50%;
+        display: block;
+        margin: -1px;
+        overflow: hidden;
+        position: relative;
+        height: 32px;
+        width: 32px;
+        z-index: 0;
+      }
+    }
+
+    .done-button {
+      margin-top: 5px;
+    }
+  }
+}
+
+  .bqs-setup-result {
+    margin-top: 50px;
+  }
+
+  .bqs-setup-result, .start-button {
+    display: flex;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+  }

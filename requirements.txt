@@ -1,0 +1,7 @@
+# pip install -r requirements.txt -t src/lib
+pytz
+google-cloud-bigquery==0.24.0
+pyjwt
+pycrypto
+ecdsa
+oauth2client

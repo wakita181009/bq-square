@@ -1,0 +1,19 @@
+<div class="layout horizontal end-justified">
+  <form [connect]="['square', 'global', 'start_date']">
+    <mat-form-field>
+      <input matInput [matDatepicker]="start_date" placeholder="Start Date"
+             ngControl ngModel name="value">
+      <mat-datepicker-toggle matSuffix [for]="start_date"></mat-datepicker-toggle>
+      <mat-datepicker #start_date></mat-datepicker>
+    </mat-form-field>
+  </form>
+  <form [connect]="['square', 'global', 'end_date']">
+    <span>~</span>
+    <mat-form-field>
+      <input matInput [matDatepicker]="end_date" placeholder="End Date"
+             ngControl ngModel name="value">
+      <mat-datepicker-toggle matSuffix [for]="end_date"></mat-datepicker-toggle>
+      <mat-datepicker #end_date></mat-datepicker>
+    </mat-form-field>
+  </form>
+</div>

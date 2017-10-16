@@ -1,0 +1,8 @@
+<app-navbar [class.mat-elevation-z6]="!!(auth$ | async).user"
+            [menu]="menu" [user]="(auth$ | async).user" (logout)="logout()"></app-navbar>
+
+<mat-progress-bar *ngIf="(auth$ | async).loading" mode="indeterminate"></mat-progress-bar>
+
+<div class="router-content" *ngIf="!(auth$ | async).loading">
+  <router-outlet></router-outlet>
+</div>

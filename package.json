@@ -1,0 +1,21 @@
+{
+  "devDependencies": {
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-help": "^1.6.1",
+    "merge-stream": "^1.0.0",
+    "run-sequence": "^1.2.2"
+  },
+  "scripts": {
+    "gulp": "gulp",
+    "build": "npm run build:admin; gulp;",
+    "build:prod": "npm run build:admin:prod; gulp;",
+    "build:admin": "cd bq-square-admin; npm run build;",
+    "build:admin:prod": "cd bq-square-admin; npm run prod-build;",
+    "appcfg": "cd dist; gcloud app deploy --project bq-square --version v1 app.yaml -q;",
+    "deploy": "npm run build:prod; npm run appcfg;",
+    "update-indexes": "gcloud app deploy index.yaml -q --project bq-square",
+    "create-indexes": "gcloud datastore create-indexes index.yaml --project bq-square",
+    "clear-indexes": "gcloud datastore cleanup-indexes --project bq-square index.yaml"
+  }
+}

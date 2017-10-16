@@ -1,0 +1,11 @@
+<mat-form-field>
+  <input matInput [placeholder]="placeholder" #input type="text"
+         (keyup.enter)="addValue(input.value);input.value=''">
+</mat-form-field>
+
+<mat-chip-list>
+  <mat-chip color="primary" selected="true" *ngFor="let value of _values;let i = index;">
+    <span>{{value}}</span>
+    <mat-icon (click)="removeValue(i)">clear</mat-icon>
+  </mat-chip>
+</mat-chip-list>

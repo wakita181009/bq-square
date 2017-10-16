@@ -1,0 +1,9 @@
+<div ace-editor
+     [(text)]="_text"
+     [mode]="mode"
+     [theme]="'chrome'"
+     [options]="options"
+     [readOnly]="false"
+     [autoUpdateContent]="true"
+     [durationBeforeCallback]="500"
+     (textChanged)="onChange($event)"></div>

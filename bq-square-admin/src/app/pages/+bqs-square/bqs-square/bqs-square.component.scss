@@ -1,0 +1,61 @@
+:host {
+  margin: 0 15px;
+}
+
+.bqs-square {
+  margin: 50px auto;
+  padding: 30px;
+  background: #ffffff;
+  max-width: 1200px;
+
+  .bqs-square-item-container {
+
+    .bqs-square-item {
+      overflow: auto;
+      margin: 50px 0 auto;
+      padding-right: 15px;
+      padding-left: 15px;
+      background: #ffffff;
+
+      &.bqs-square-item-input {
+        margin: 0 auto;
+      }
+
+      > mat-spinner {
+        margin: 0 auto;
+      }
+    }
+
+  }
+
+  .half {
+    -ms-flex: 0 0 50%;
+    flex: 0 0 50%;
+    max-width: 50%;
+
+    @media screen and (max-width: 1100px) {
+      -ms-flex: 0 0 100%;
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+  }
+
+  .full {
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .busy {
+    width: 100%;
+    max-width: 1200px;
+    position: absolute;
+    background: #fff;
+    opacity: 0.7;
+    margin: 0;
+    z-index: 9999;
+  }
+
+}
+
+

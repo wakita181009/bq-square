@@ -1,0 +1,99 @@
+$sidenav-spacing-unit: 8px;
+$sidenav-width: 240px;
+
+bqs-square-sidenav {
+  display: flex;
+}
+
+.bqs-square-sidenav-container {
+  width: 100%;
+
+  .mat-sidenav-content {
+    position: absolute;
+    right: 0;
+    left: 0;
+  }
+}
+
+.bqs-square-sidenav {
+  box-shadow: 3px 0 6px rgba(0, 0, 0, .24);
+  padding-bottom: 72px;
+  width: $sidenav-width;
+  bottom: 0;
+  overflow: auto;
+  height: 100%;
+
+  &.mat-sidenav-opened {
+    box-shadow: 3px 0 6px rgba(0, 0, 0, .24);
+  }
+
+  // Section divider
+  h3 {
+    border: none;
+    font-size: 10px;
+    letter-spacing: 1px;
+    line-height: $sidenav-spacing-unit * 3;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin: 0;
+    padding: 0 ($sidenav-spacing-unit * 2);
+  }
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  // Sidenav navigation item
+  li {
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    margin: 0;
+    padding: 0;
+
+
+    // Hide the border on the last item
+    &:last-child {
+      border-color: transparent;
+    }
+
+    > a {
+      box-sizing: border-box;
+      display: block;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: ($sidenav-spacing-unit * 6) - 1;
+      text-decoration: none;
+      transition: all .3s;
+      padding: 0 ($sidenav-spacing-unit * 2);
+      position: relative;
+
+      &.bqs-square-sidenav-item-selected {
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+.bqs-square-sidenav-content {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  // The rule will match the element following the router-outlet which will be the routed component.
+  router-outlet + * {
+    flex-grow: 1;
+  }
+}
+
+.bqs-square-sidenav-button {
+  min-width: 5%;
+  background: #00bcd4;
+  color: white;
+  border-right: solid white 1px;
+}
+
+.bqs-square-header {
+  flex: 1
+}

@@ -1,0 +1,30 @@
+<div class="bqs-square layout horizontal wrap center-justified mat-elevation-z8">
+
+  <ng-template ngFor let-item [ngForOf]="square_items$ | async">
+    <div class="bqs-square-item-container"
+         [class.half]="item.size=='half'"
+         [class.full]="item.size=='full'">
+
+      <div class="bqs-square-item" [class.bqs-square-item-input]="item.type.indexOf('input_')==0">
+
+        <ng-template [ngIf]="!item.loading&&item.result&&item.result['error']">
+          <span>{{item.result['error']}}</span>
+        </ng-template>
+
+        <ng-template [ngIf]="!item.loading&&item.result&&!item.result['error']||(item.type.indexOf('input_')==0)">
+          <bqs-square-item [squareItem]="item"></bqs-square-item>
+        </ng-template>
+
+        <div class="layout center-center"
+             [style.display]="item.loading?'flex':'none'">
+          <mat-spinner [diameter]="30"></mat-spinner>
+        </div>
+
+      </div>
+
+    </div>
+  </ng-template>
+
+  <div class="busy" *ngIf="loading$ | async"></div>
+
+</div>

@@ -1,0 +1,46 @@
+<div class="bqs-setup-conteainer">
+
+  <div class="bqs-setup-form">
+    <form (ngSubmit)="onSubmit()" #setupForm="ngForm">
+      <div class="form-input layout vertical">
+        <div class="info layout horizontal">
+          <span class="avatar" [style.background-image]="user_image_url"></span>
+          <span>{{ user_email }}</span>
+        </div>
+        <mat-form-field [floatPlaceholder]="'always'">
+          <input matInput placeholder="Name"
+                 type="text" id="name"
+                 required
+                 #name="ngModel"
+                 [(ngModel)]="model.name"
+                 name="name"
+                 [disabled]="form_unavailable">
+        </mat-form-field>
+      </div>
+
+      <div class="done-button layout horizontal">
+        <div class="flex"></div>
+        <button mat-button
+                type="submit"
+                [disabled]="form_unavailable || !setupForm.form.valid">
+          Done
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+  <ng-template [ngIf]="completed">
+    <div class="bqs-setup-result">
+      <p>Your setup has been completed.</p>
+    </div>
+
+    <div class="start-button">
+      <button mat-button [routerLink]="['/login']">
+        Login to start!
+      </button>
+    </div>
+  </ng-template>
+
+
+</div>

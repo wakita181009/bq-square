@@ -1,0 +1,98 @@
+<div class="bqs-primary-header">
+  <h1>{{display_name | async}}</h1>
+  <p>ID: {{id | async}}</p>
+  <p>Type: {{type | async}}</p>
+</div>
+
+<mat-progress-bar *ngIf="global_key_loading | async" mode="indeterminate"></mat-progress-bar>
+
+<ng-template [ngIf]="isPredefined">
+  <button mat-button color="primary" (click)="addGlobalValue()">Add a value</button>
+
+  <form class="global-value-edit mat-elevation-z8" *ngIf="editMode == 'Create'"
+        [connect]="['admin', 'global_value', 'form']">
+    <div>
+      <mat-form-field>
+        <input matInput placeholder="ID" required
+               name="id" ngControl ngModel>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field>
+        <input matInput placeholder="Display Name" required
+               name="display_name" ngControl ngModel>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <tag-input placeholder="Authorized User Email" secondaryPlaceholder="Authorized User Email"
+                 [modelAsStrings]="true" onlyFromAutocomplete="true" [theme]="'foundation-theme'"
+                 name="authorized_user_email" ngControl ngModel>
+        <tag-input-dropdown [showDropdownIfEmpty]="true"
+                            [autocompleteItems]="user_emails | async">
+        </tag-input-dropdown>
+      </tag-input>
+    </div>
+
+    <button mat-button color="primary" (click)="createGlobalValue()">Submit</button>
+    <button mat-button color="primary" (click)="editMode='None'">Cancel</button>
+  </form>
+
+  <div *ngIf="global_value_loading | async">
+    <mat-spinner [diameter]="30"></mat-spinner>
+  </div>
+
+  <expansion-panels-container class="global-value-view mat-elevation-z8">
+
+    <ng-template ngFor let-item [ngForOf]="global_value_items | async">
+      <expansion-panel (onOpen)="editMode='None'">
+        <expansion-panel-title>
+          {{item.display_name}}
+        </expansion-panel-title>
+
+        <expansion-panel-description-hidden>
+          id: {{item.id}}
+        </expansion-panel-description-hidden>
+
+        <expansion-panel-description-toggled>
+
+        </expansion-panel-description-toggled>
+
+        <expansion-panel-content>
+          <div *ngIf="editMode !== 'Update'">
+            <p>id: {{item.id}}</p>
+            <p>authorized_user_email: {{item.authorized_user_email}}</p>
+            <button mat-button color="primary" (click)="editGlobalValue(item.urlsafe)">Edit</button>
+            <button mat-button color="primary" (click)="deleteGlobalValue(item.urlsafe)">Delete</button>
+          </div>
+
+          <form class="global-value-edit" *ngIf="editMode == 'Update'" [connect]="['admin', 'global_value', 'form']">
+            <div>
+              <mat-form-field>
+                <input matInput placeholder="Display Name" required
+                       name="display_name" ngControl ngModel>
+              </mat-form-field>
+            </div>
+
+            <div>
+              <tag-input placeholder="Authorized User Email" secondaryPlaceholder="Authorized User Email"
+                         [modelAsStrings]="true" onlyFromAutocomplete="true" [theme]="'foundation-theme'"
+                         name="authorized_user_email" ngControl ngModel>
+                <tag-input-dropdown [showDropdownIfEmpty]="true"
+                                    [autocompleteItems]="user_emails | async">
+                </tag-input-dropdown>
+              </tag-input>
+            </div>
+
+            <button mat-button color="primary" (click)="updateGlobalValue(item.urlsafe)">Submit</button>
+            <button mat-button color="primary" (click)="editMode='None'">Cancel</button>
+          </form>
+
+        </expansion-panel-content>
+      </expansion-panel>
+    </ng-template>
+
+  </expansion-panels-container>
+</ng-template>
+

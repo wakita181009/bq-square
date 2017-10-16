@@ -1,0 +1,27 @@
+indexes:
+
+- kind: QueryModel
+  properties:
+  - name: deleted
+  - name: created
+
+- kind: ReportModel
+  properties:
+  - name: deleted
+  - name: created
+
+- kind: GlobalKeyModel
+  properties:
+  - name: deleted
+  - name: created
+
+- kind: GlobalValueModel
+  ancestor: yes
+  properties:
+  - name: deleted
+  - name: created
+
+- kind: UserModel
+  properties:
+  - name: deleted
+  - name: created

@@ -1,0 +1,21 @@
+:host {
+  display: inline-block;
+  position: relative;
+  font-family: Roboto,"Helvetica Neue",sans-serif;
+  line-height: normal;
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+mat-chip.mat-chip.mat-chip-selected:not(.mat-basic-chip) {
+  display: flex;
+  display: -webkit-flex;
+  margin-bottom: 5px;
+}
+
+mat-icon {
+  font-size: 15px;
+  width: 15px;
+  height: 15px;
+  margin-left: 5px;
+}

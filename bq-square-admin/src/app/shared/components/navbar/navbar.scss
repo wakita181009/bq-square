@@ -1,0 +1,73 @@
+.docs-navbar {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+
+  .project-name {
+    color: #ffffff;
+  }
+
+  > .mat-button {
+    &:last-child {
+      margin-left: auto;
+    }
+  }
+
+  .navbar-item {
+    margin: 0;
+    padding: 0 16px;
+  }
+
+  .navbar-item, .navbar-item > .material-icons {
+    line-height: 36px;
+  }
+
+  .user-info {
+    >* {
+      vertical-align: middle;
+      text-transform: none;
+    }
+
+    :first-child {
+      margin-right: 15px;
+    }
+
+    .avatar {
+      -webkit-background-size: 36px 36px;
+      background-size: 36px 36px;
+      -webkit-border-radius: 50%;
+      border-radius: 50%;
+      display: block;
+      margin: -1px;
+      overflow: hidden;
+      position: relative;
+      height: 36px;
+      width: 36px;
+      z-index: 0;
+    }
+  }
+
+
+  span {
+    vertical-align: middle;
+    text-transform: none;
+  }
+}
+
+.flex-spacer {
+  flex-grow: 1;
+}
+
+.docs-angular-logo {
+  height: 26px;
+  margin: 0 4px 3px 0;
+  vertical-align: middle;
+}
+
+.docs-github-logo {
+  height: 21px;
+  margin: 0 7px 2px 0;
+  vertical-align: middle;
+}

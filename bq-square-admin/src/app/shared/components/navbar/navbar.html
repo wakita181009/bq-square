@@ -1,0 +1,37 @@
+<!-- TODO: figure out if the <nav> should go inside of a <header> element. -->
+<nav class="docs-navbar">
+  <a mat-button disabled class="project-name">
+    <span>BQ-Square</span>
+  </a>
+
+  <ng-template [ngIf]="is_logout">
+
+    <div class="flex-spacer"></div>
+
+    <div class="navbar-item">
+      <mat-icon>lock_outline</mat-icon>
+    </div>
+  </ng-template>
+
+  <ng-template [ngIf]="!is_logout">
+
+    <a mat-button [routerLink]="['/']">
+      <span>Square</span>
+    </a>
+
+    <a *ngFor="let item of menu" mat-button class="docs-button" [routerLink]="[item.href]">
+      <span>{{item.name}}</span>
+    </a>
+
+    <div class="flex-spacer"></div>
+
+    <a mat-icon-button (click)="onLogout()">
+      <mat-icon>lock_open</mat-icon>
+    </a>
+    <div class="navbar-item user-info layout horizontal">
+      <span>{{user?.name}}</span>
+      <span class="avatar" [style.background-image]="user_image_url"></span>
+    </div>
+  </ng-template>
+
+</nav>

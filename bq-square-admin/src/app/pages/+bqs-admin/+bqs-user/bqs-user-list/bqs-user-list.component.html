@@ -1,0 +1,61 @@
+<button mat-mini-fab class="fab" routerLink="/admin/user/edit">
+  <mat-icon>add</mat-icon>
+</button>
+
+<mat-progress-bar *ngIf="loading | async" mode="indeterminate"></mat-progress-bar>
+
+<div class="bqs-primary-header">
+  <h1>Users</h1>
+</div>
+
+<div class="user-list-table">
+  <div class="table mat-elevation-z8">
+
+    <div class="table-header">
+      <mat-form-field floatPlaceholder="never">
+        <input matInput #filter placeholder="Filter">
+      </mat-form-field>
+    </div>
+
+    <mat-table #table [dataSource]="user$">
+
+      <!-- Name Column -->
+      <ng-container cdkColumnDef="name">
+        <mat-header-cell *cdkHeaderCellDef> Name</mat-header-cell>
+        <mat-cell *cdkCellDef="let row"> {{row.name}}</mat-cell>
+      </ng-container>
+
+      <!-- Email Column -->
+      <ng-container cdkColumnDef="email">
+        <mat-header-cell *cdkHeaderCellDef> Email</mat-header-cell>
+        <mat-cell *cdkCellDef="let row"> {{row.email}}</mat-cell>
+      </ng-container>
+
+      <!-- Role Column -->
+      <ng-container cdkColumnDef="role">
+        <mat-header-cell *cdkHeaderCellDef> Role</mat-header-cell>
+        <mat-cell *cdkCellDef="let row"> {{row.role}}</mat-cell>
+      </ng-container>
+
+      <!-- Control Column -->
+      <ng-container cdkColumnDef="control">
+        <mat-header-cell *cdkHeaderCellDef></mat-header-cell>
+        <mat-cell *cdkCellDef="let row">
+          <ng-template [ngIf]="row.role !== 'owner'">
+            <button mat-icon-button routerLink="/admin/user/edit/{{row.urlsafe}}">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="del(row.urlsafe)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </ng-template>
+        </mat-cell>
+      </ng-container>
+
+
+      <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *cdkRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+  </div>
+</div>

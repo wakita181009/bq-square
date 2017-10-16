@@ -1,0 +1,19 @@
+:host > button {
+  margin: 20px;
+}
+
+.global-key-view, .global-value-view, .global-value-edit {
+  width: 90%;
+  margin: 20px auto;
+  display: flex;
+  -webkit-flex-direction: column; /* Safari */
+  flex-direction:         column;
+
+  > * {
+    margin: 5px 25px;
+  }
+}
+
+.bqs-primary-header {
+  height: 250px;
+}

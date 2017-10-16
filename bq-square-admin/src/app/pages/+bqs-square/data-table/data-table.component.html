@@ -1,0 +1,17 @@
+<div class="data-table-container">
+
+  <mat-table #table [dataSource]="table_data$">
+    <ng-template ngFor let-item let-i="index" [ngForOf]="table_schema">
+
+      <ng-container [cdkColumnDef]="item">
+        <mat-header-cell *cdkHeaderCellDef> {{table_schema_name?table_schema_name[i]:item}}</mat-header-cell>
+        <mat-cell *cdkCellDef="let row">{{row[item]}}</mat-cell>
+      </ng-container>
+
+    </ng-template>
+
+    <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *cdkRowDef="let row; columns: displayedColumns;"></mat-row>
+
+  </mat-table>
+</div>

@@ -1,0 +1,19 @@
+:host {
+  background: #00bcd4;
+  display: flex;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.google-login {
+  width: 240px;
+  height: 50px;
+  margin-bottom: 300px;
+  vertical-align: middle;
+  text-transform: none;
+  color: #fff;
+}

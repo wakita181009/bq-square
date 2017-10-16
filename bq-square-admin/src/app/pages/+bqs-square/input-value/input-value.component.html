@@ -1,0 +1,9 @@
+<form class="layout horizontal end-justified"
+      [connect]="['square', 'global', item?.id]" *ngIf="ready">
+  <mat-form-field>
+    <input matInput
+           [placeholder]="item?.display_name"
+           ngControl ngModel
+           name="value">
+  </mat-form-field>
+</form>
