@@ -37,3 +37,6 @@ bq-square-admin/src/environments/environment.prod.ts
 
 # js
 bq-square-admin/src/app/**/*.js
+
+# rsa secret
+rsa
