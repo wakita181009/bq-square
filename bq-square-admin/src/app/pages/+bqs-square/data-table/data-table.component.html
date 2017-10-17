@@ -5,7 +5,10 @@
 
       <ng-container [cdkColumnDef]="item">
         <mat-header-cell *cdkHeaderCellDef> {{table_schema_name?table_schema_name[i]:item}}</mat-header-cell>
-        <mat-cell *cdkCellDef="let row">{{row[item]}}</mat-cell>
+        <mat-cell *cdkCellDef="let row">
+          <span *ngIf="is_number(row[item])">{{row[item] | number:'.0-2'}}</span>
+          <span *ngIf="!is_number(row[item])">{{row[item]}}</span>
+        </mat-cell>
       </ng-container>
 
     </ng-template>

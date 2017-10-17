@@ -35,6 +35,10 @@ export class DataTableComponent implements OnInit {
     console.log(this.table_data.length)
   }
 
+  is_number(obj) {
+    return typeof obj === 'number'
+  }
+
 }
 
 class DataTableDataSource extends DataSource<any> {
@@ -59,4 +63,5 @@ class DataTableDataSource extends DataSource<any> {
 
   disconnect() {
   }
+
 }
