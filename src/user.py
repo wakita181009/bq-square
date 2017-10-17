@@ -7,3 +7,4 @@ class UserModel(_UserModel):
     authorized_query_id = ndb.StringProperty(repeated=True)
     # authorized_table_name = ndb.StringProperty(repeated=True)
     report_id = ndb.StringProperty(repeated=True)
+    verified = ndb.BooleanProperty(default=False)

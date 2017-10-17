@@ -54,8 +54,6 @@ class SetupHandler(BaseHandler):
                 'role': 'owner'
             }
 
-            print self.user_model.create, user
-
             try:
                 future = self.user_model.create(**user)
             except Exception as e:

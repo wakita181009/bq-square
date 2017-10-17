@@ -30,7 +30,7 @@
     </a>
     <div class="navbar-item user-info layout horizontal">
       <span>{{user?.name}}</span>
-      <span class="avatar" [style.background-image]="user_image_url"></span>
+      <span class="avatar" [style.background-image]="user_image_url || ''"></span>
     </div>
   </ng-template>
 
