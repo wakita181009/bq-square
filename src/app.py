@@ -19,7 +19,7 @@ config = {
         'access_authorizations': {
             'admin': [
                 r'^/api/v1/.*$',
-                r'^/getReport$',
+                r'^/getReport/.*',
                 r'^/getReportList$',
                 r'^/getGlobalKeyValue/.*$',
                 r'^/run_query/.*$'
