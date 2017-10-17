@@ -1,7 +1,7 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {DomSanitizer, SafeStyle} from '@angular/platform-browser'
 
-
+import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'app-navbar',
@@ -9,6 +9,7 @@ import {DomSanitizer, SafeStyle} from '@angular/platform-browser'
   styleUrls: ['navbar.scss']
 })
 export class NavBar {
+  project_name = environment['project_name'] || 'BQ-Square';
 
   @Input() menu = [];
   @Input() user: any;
