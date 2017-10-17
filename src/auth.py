@@ -32,8 +32,7 @@ class AuthHandler(BaseHandler):
                         'email': idinfo['email'],
                         'google_given_name': idinfo['given_name'],
                         'google_family_name': idinfo['family_name'],
-                        'google_name': idinfo['name'],
-                        'role': 'owner'
+                        'google_name': idinfo['name']
                     }
 
                     try:
