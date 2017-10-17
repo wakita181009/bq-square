@@ -18,6 +18,7 @@ declare let gapi: any;
 declare let window: any;
 
 const PUBLIC_KEY = environment['PUBLIC_KEY'];
+const GOOGLE_CLIENT_ID = environment['GOOGLE_CLIENT_ID'];
 
 
 @Injectable()
@@ -27,7 +28,10 @@ export class AuthService {
               private authActions: AuthActions) {
 
     gapi.load('auth2', () => {
-      let auth2 = this.auth2 = window.auth2 = gapi.auth2.init({});
+      let auth2 = this.auth2 = window.auth2 = gapi.auth2.init({
+        client_id: GOOGLE_CLIENT_ID,
+        scope: 'profile email'
+      });
       auth2.then(() => {
         if (auth2.isSignedIn.get()) {
           let id_token = auth2.currentUser.get().getAuthResponse().id_token;

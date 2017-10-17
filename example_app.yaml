@@ -1,0 +1,64 @@
+runtime: python27
+api_version: 1
+threadsafe: yes
+
+
+handlers:
+- url: /
+  static_files: admin/dist/index.html
+  upload: admin/dist/index.html
+  secure: always
+  redirect_http_response_code: 301
+
+- url: /login/?.*
+  static_files: admin/dist/index.html
+  upload: admin/dist/index.html
+  secure: always
+  redirect_http_response_code: 301
+
+- url: /square/?.*
+  static_files: admin/dist/index.html
+  upload: admin/dist/index.html
+  secure: always
+  redirect_http_response_code: 301
+
+- url: /admin/?.*
+  static_files: admin/dist/index.html
+  upload: admin/dist/index.html
+  secure: always
+  redirect_http_response_code: 301
+
+- url: /(.*\.(js|css|ico))$
+  static_files: admin/dist/\1
+  upload: admin/dist/.*\.(js|css|ico)$
+  secure: always
+  redirect_http_response_code: 301
+
+- url: /robots.txt
+  static_files: robots.txt
+  upload: robots.txt
+  secure: always
+  redirect_http_response_code: 301
+
+- url: .*
+  script: src.app.app
+  secure: always
+  redirect_http_response_code: 301
+
+env_variables:
+  CLIENT: https://bq-square.appspot.com
+  GOOGLE_CLIENT_ID: YOUR_GOOGLE_CLIENT_ID
+  JWT_ALGORITHM: RS256
+  JWT_PUBLIC_KEY: YOUR_PUBLIC_KEY
+  JWT_PRIVATE_KEY: YOUR_PRIVATE_KEY
+  OWNER: example@example.com
+
+libraries:
+- name: webapp2
+  version: latest
+- name: jinja2
+  version: latest
+- name: pycrypto
+  version: latest
+- name: ssl
+  version: latest
