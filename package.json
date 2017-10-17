@@ -16,6 +16,8 @@
     "deploy": "npm run build:prod; npm run appcfg;",
     "update-indexes": "gcloud app deploy index.yaml -q --project bq-square",
     "create-indexes": "gcloud datastore create-indexes index.yaml --project bq-square",
-    "clear-indexes": "gcloud datastore cleanup-indexes --project bq-square index.yaml"
+    "clear-indexes": "gcloud datastore cleanup-indexes --project bq-square index.yaml",
+    "create-rsa:dev": "ssh-keygen -t rsa -b 4096 -f ./rsa/dev_rsa; openssl rsa -in ./rsa/dev_rsa -pubout -outform PEM -out ./rsa/dev_rsa.pub;",
+    "create-rsa:prod": "ssh-keygen -t rsa -b 4096 -f ./rsa/prod_rsa; openssl rsa -in ./rsa/prod_rsa -pubout -outform PEM -out ./rsa/prod_rsa.pub;"
   }
 }
