@@ -1,5 +1,6 @@
-import {Component, OnInit, Input, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, Input, ChangeDetectorRef, ViewChild} from '@angular/core';
 import {DataSource} from '@angular/cdk/table';
+import {MatPaginator} from '@angular/material';
 import {Observable} from 'rxjs/Observable';
 
 @Component({
@@ -18,6 +19,8 @@ export class DataTableComponent implements OnInit {
   table_data$: DataTableDataSource | null;
   displayedColumns: string[];
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
   constructor(private changeDetector: ChangeDetectorRef) {
   }
 
@@ -26,8 +29,10 @@ export class DataTableComponent implements OnInit {
     this.table_data = this.data.result && this.data.result['data'];
     this.table_schema_name = (this.data.format && this.data.format['schema_name']) || this.table_schema;
     this.displayedColumns = (this.data.format && this.data.format['schema']) || this.table_schema;
-    this.table_data$ = new DataTableDataSource(this.table_data);
+    this.table_data$ = new DataTableDataSource(this.table_data, this.paginator);
     this.changeDetector.detectChanges();
+
+    console.log(this.table_data.length)
   }
 
 }
@@ -35,12 +40,21 @@ export class DataTableComponent implements OnInit {
 class DataTableDataSource extends DataSource<any> {
 
 
-  constructor(private _data: any) {
+  constructor(private _data: any, private _paginator: MatPaginator) {
     super();
   }
 
   connect() {
-    return Observable.of(this._data);
+    const displayDataChanges = [
+      Observable.of(this._data),
+      this._paginator.page,
+    ];
+
+    return Observable.merge(...displayDataChanges).map(() => {
+      const data = this._data.slice();
+      const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
+      return data.splice(startIndex, this._paginator.pageSize);
+    });
   }
 
   disconnect() {
