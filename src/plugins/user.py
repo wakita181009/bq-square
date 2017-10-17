@@ -5,13 +5,10 @@ import json
 import webapp2
 from webapp2_extras.routes import NamePrefixRoute
 from google.appengine.ext import ndb
-from google.appengine.api import memcache
 from oauth2client import client, crypt
 from src.plugins.base_models import BaseExpandoModelWithUnique
 
-from .base_handler import import_class
 from .rest import BaseRESTHandler, RESTVersionError
-from .base_models import UniqueModelError
 
 GOOGLE_CLIENT_ID = os.environ['GOOGLE_CLIENT_ID']
 OWNER = os.environ['OWNER']
