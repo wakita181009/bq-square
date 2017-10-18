@@ -1,10 +1,10 @@
 <div class="bqs-primary-header">
-  <h1>{{display_name | async}}</h1>
-  <p>ID: {{id | async}}</p>
-  <p>Type: {{type | async}}</p>
+  <h1>{{ (global_key$ | async)?.display_name }}</h1>
+  <p>ID: {{( global_key$ | async)?.id }}</p>
+  <p>Type: {{ (global_key$ | async)?.type }}</p>
 </div>
 
-<mat-progress-bar *ngIf="global_key_loading | async" mode="indeterminate"></mat-progress-bar>
+<mat-progress-bar *ngIf="(global_key$ | async)?.loading" mode="indeterminate"></mat-progress-bar>
 
 <ng-template [ngIf]="isPredefined">
   <button mat-button color="primary" (click)="addGlobalValue()">Add a value</button>

@@ -14,13 +14,9 @@ import {createModelLoadingSelector, userEmailsSelector} from 'app/selectors/mode
   styleUrls: ['./bqs-global-key-view.component.scss'],
 })
 export class BqsGlobalKeyViewComponent implements OnDestroy {
-  @select(['admin', 'global_key', 'form', 'id']) id: Observable<string>;
-  @select(['admin', 'global_key', 'form', 'display_name']) display_name: Observable<string>;
-  @select(['admin', 'global_key', 'form', 'type']) type: Observable<string>;
+  @select(['admin', 'global_key', 'form']) global_key$: Observable<any>;
 
   @select(['admin', 'global_value', 'items']) global_value_items: Observable<IModel[]>;
-
-  @select(['admin', 'global_key', 'loading']) global_key_loading: Observable<boolean>;
   @select(createModelLoadingSelector('global_value')) global_value_loading: Observable<boolean>;
 
   @select(userEmailsSelector) user_emails: Observable<string[]>;
@@ -40,19 +36,17 @@ export class BqsGlobalKeyViewComponent implements OnDestroy {
         this.store.dispatch(this.modelActions.readModel('global_key', urlsafe));
       });
 
-    this.type.subscribe(type => {
-      this.isPredefined = type === 'PREDEFINED';
-
+    this.global_key$.subscribe((k) => {
+      this.isPredefined = k.type === 'PREDEFINED';
       if (this.isPredefined) {
-        this.id.subscribe(id => {
-          if (id) {
-            this.store.dispatch(
-              this.modelActions.listModel('global_value',
-                {q: `ANCESTOR%20is%20Key%28%27GlobalKeyModel%27%2C%20%27${id}%27%29`}
-              ));
-            this._global_id = id;
-          }
-        });
+        let id = k.id;
+        if (id) {
+          this.store.dispatch(
+            this.modelActions.listModel('global_value',
+              {q: `ANCESTOR%20is%20Key%28%27GlobalKeyModel%27%2C%20%27${id}%27%29`}
+            ));
+          this._global_id = id;
+        }
         this.store.dispatch(this.modelActions.listModel('user'));
       }
     });
@@ -88,6 +82,7 @@ export class BqsGlobalKeyViewComponent implements OnDestroy {
   createGlobalValue() {
     this.store.dispatch(this.modelActions.createModel('global_value'));
     this.editMode = "None";
+    this.store.dispatch(this.modelActions.newForm('global_value'));
   }
 
   updateGlobalValue(urlsafe: string) {
