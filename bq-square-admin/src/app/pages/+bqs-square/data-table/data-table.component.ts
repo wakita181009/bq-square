@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, ChangeDetectorRef, ViewChild} from '@angular/core';
+import {Component, OnInit, Input, ChangeDetectorRef, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {DataSource} from '@angular/cdk/table';
 import {MatPaginator} from '@angular/material';
 import {Observable} from 'rxjs/Observable';
@@ -7,6 +7,7 @@ import {Observable} from 'rxjs/Observable';
   selector: 'data-table-component',
   templateUrl: './data-table.component.html',
   styleUrls: ['./data-table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DataTableComponent implements OnInit {
   @Input() data: any;

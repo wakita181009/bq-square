@@ -24,22 +24,24 @@ export class InputValueComponent implements OnInit {
   }
 
   ngOnInit() {
-    let connect_id = this.data.format['connect'];
-    if (connect_id) {
-      this.store.dispatch(this.squareActions.getGlobalKeyValue(connect_id));
-      this.item$ = this.store.select(['square', 'global', connect_id]);
-      this.item_subscription = this.item$.subscribe(item => {
-        if (item) {
-          this.ready = true;
-          this.item = item;
-          this.changeDetector.detectChanges();
-        }
-      })
+    if (this.data.format) {
+      let connect_id = this.data.format['connect'];
+      if (connect_id) {
+        this.store.dispatch(this.squareActions.getGlobalKeyValue(connect_id));
+        this.item$ = this.store.select(['square', 'global', connect_id]);
+        this.item_subscription = this.item$.subscribe(item => {
+          if (item) {
+            this.ready = true;
+            this.item = item;
+            this.changeDetector.detectChanges();
+          }
+        })
+      }
     }
   }
 
   ngOnDestroy() {
-    this.item_subscription.unsubscribe();
+    this.item_subscription && this.item_subscription.unsubscribe();
   }
 
 }

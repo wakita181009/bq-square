@@ -1,5 +1,5 @@
 <form class="layout horizontal end-justified"
-      [connect]="['square', 'global', item?.id]" *ngIf="ready">
+      [connect]="['square', 'global', item?.id || '_']" *ngIf="ready">
   <mat-form-field>
     <input matInput
            [placeholder]="item?.display_name"

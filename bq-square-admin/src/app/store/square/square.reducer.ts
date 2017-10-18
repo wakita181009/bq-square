@@ -104,7 +104,10 @@ export const squareReducer: Reducer<ISquareStore> =
           }
         );
       case SquareActions.GET_GLOBAL_KEY_VALUE_COMPLETED:
-        state.global[action.payload['id']] = action.payload;
+        let payload = action.payload;
+        if (payload._predefined) payload.value = payload._predefined[0] && payload._predefined[0]['id'];
+        console.log(payload);
+        state.global[payload.id] = payload;
         return tassign(
           state,
           {
