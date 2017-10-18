@@ -22,7 +22,9 @@ src/lib
 *.pyc
 
 # key
-src/rsa/*
+rsa/*
+rsa/**/*
+!.gitkeep
 
 # data
 /src/data/
@@ -37,6 +39,3 @@ bq-square-admin/src/environments/environment.prod.ts
 
 # js
 bq-square-admin/src/app/**/*.js
-
-# rsa secret
-rsa
