@@ -2,7 +2,8 @@
   <canvas baseChart
           [datasets]="data?.result?.datasets"
           [labels]="data?.result?.labels"
-          [options]="(data?.multi)?options_multi:options"
+          [options]="get_options(data?.result?.type, data?.result?.multi_axis)"
           [chartType]="data?.result?.type"
-          [colors]="colors"></canvas>
+          [colors]="colors"
+          [class]="data?.result?.type"></canvas>
 </div>

@@ -32,8 +32,6 @@ export class DataTableComponent implements OnInit {
     this.displayedColumns = (this.data.format && this.data.format['schema']) || this.table_schema;
     this.table_data$ = new DataTableDataSource(this.table_data, this.paginator);
     this.changeDetector.detectChanges();
-
-    console.log(this.table_data.length)
   }
 
   is_number(obj) {

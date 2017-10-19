@@ -252,11 +252,17 @@ class RunQueryHandler(BaseHandler):
                     _list = []
                     for index, i in enumerate(v):
                         result_index = result_obj['schema'].index(i)
-                        _list.append({
-                            "data": [row[result_index] for row in result_obj['rows']],
-                            "label": i,
-                            "yAxisID": "y-axis-{0}".format(index + 1)
-                        })
+                        if f['type'] == 'line':
+                            _list.append({
+                                "data": [row[result_index] for row in result_obj['rows']],
+                                "label": i,
+                                "yAxisID": "y-axis-{0}".format(index + 1)
+                            })
+                        else:
+                            _list.append({
+                                "data": [row[result_index] for row in result_obj['rows']],
+                                "label": i
+                            })
                     f[k] = _list
             elif k == 'labels':
                 result_index = result_obj['schema'].index(v)

@@ -3,9 +3,19 @@
     margin: 0 auto;
   }
 
-  canvas {
+  .pie {
+    max-width: 350px;
+  }
+
+  .line {
     max-width: 900px;
-    max-height: 350px;
+  }
+
+  canvas {
+    //max-width: 900px;
+    //max-height: 350px;
+    //width: auto !important;
+    //height: 100% !important;
   }
 
 }
