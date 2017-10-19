@@ -67,7 +67,10 @@ const OPTIONS_LINE_MULTI_AXIS = {
 };
 
 const OPTIONS_PIE = {
-  responsive: true
+  responsive: true,
+  legend: {
+    position: 'right',
+  },
 };
 
 

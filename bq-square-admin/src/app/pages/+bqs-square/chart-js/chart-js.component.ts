@@ -2,16 +2,11 @@ import {Component, OnInit, ChangeDetectionStrategy, Input} from '@angular/core';
 import {CHARTJS_OPTIONS} from './chartjs_options';
 
 
-function thousandsSeparator(value, index, values) {
-  value = value.toString().split(/(?=(?:...)*$)/).join(',');
-  return value;
-}
-
 @Component({
   selector: 'chart-js-component',
   templateUrl: './chart-js.component.html',
   styleUrls: ['./chart-js.component.scss'],
-  // changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChartJsComponent implements OnInit {
 
