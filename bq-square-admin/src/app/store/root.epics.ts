@@ -13,6 +13,7 @@ export class RootEpics {
 
   createEpics() {
     return combineEpics(
+      this.modelEpics.createEpics('data_source'),
       this.modelEpics.createEpics('query'),
       this.modelEpics.createEpics('report'),
       this.modelEpics.createEpics('user'),

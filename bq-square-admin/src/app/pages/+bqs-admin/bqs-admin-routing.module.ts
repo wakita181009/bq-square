@@ -4,6 +4,10 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: 'data_source',
+    loadChildren: 'app/pages/+bqs-admin/+bqs-data-source/bqs-data-source.module#BqsDataSourceModule'
+  },
+  {
     path: 'query',
     loadChildren: 'app/pages/+bqs-admin/+bqs-query/bqs-query.module#BqsQueryModule'
   },

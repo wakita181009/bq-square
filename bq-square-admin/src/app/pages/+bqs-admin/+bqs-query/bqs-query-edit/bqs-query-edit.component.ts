@@ -7,6 +7,8 @@ import {Router, ActivatedRoute, Params} from '@angular/router';
 import {IAppState} from 'app/types';
 import {ModelActions} from 'app/store/model/model.actions';
 
+import {dataSourceIDSelector} from 'app/selectors/model';
+
 
 @Component({
   selector: 'bqs-query-edit',
@@ -20,10 +22,14 @@ export class BqsQueryEditComponent implements OnDestroy {
 
   @select(['admin', 'query', 'loading']) loading: Observable<boolean>;
 
+  @select(dataSourceIDSelector) data_source_ids$: Observable<string[]>;
+
   constructor(private modelActions: ModelActions,
               private store: NgRedux<IAppState>,
               private route: ActivatedRoute,
               private router: Router) {
+    this.store.dispatch(this.modelActions.listModel('data_source'));
+
     this.route.params
       .map((params: Params) => params['urlsafe'])
       .subscribe((urlsafe) => {
