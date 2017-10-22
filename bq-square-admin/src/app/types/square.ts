@@ -15,6 +15,7 @@ export interface ISquareItem {
 }
 
 export interface ISquare {
+  urlsafe: string,
   name: string,
   description: string,
   items: ISquareItem[],

@@ -17,6 +17,7 @@ export class BqsSquareComponent implements OnInit {
 
   @select(squareLoadingSelector) loading$: Observable<boolean>;
   @select(['square', 'active', 'run']) run$: Observable<boolean>;
+  @select(['square', 'active', 'urlsafe']) square_urlsafe$: Observable<string>;
   @select(['square', 'active', 'items']) square_items$: Observable<ISquareItem[]>;
 
   constructor(public store: NgRedux<IAppState>,
@@ -25,13 +26,17 @@ export class BqsSquareComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.store.dispatch(this.squareActions.squareChanged());
+    this.store.dispatch(this.squareActions.listSquare());
 
-    this.route.paramMap
-      .subscribe((params: ParamMap) => {
-        this.store.dispatch(this.squareActions.squareChanged());
-        this.store.dispatch(this.squareActions.readSquare(params.get('urlsafe') || ''));
-        this.store.dispatch(this.squareActions.listSquare());
-      });
+    Observable.combineLatest(
+      this.route.paramMap.map((params: ParamMap) => params.get('urlsafe')),
+      this.square_urlsafe$.take(1)
+    ).subscribe(arr => {
+      this.store.dispatch(this.squareActions.readSquare(arr[0] || arr[1] || ''));
+    });
+
   }
+
 
 }

@@ -30,6 +30,7 @@ class GetReportHandler(BaseHandler):
         report_format = json.loads(model.format)
 
         r = {
+            'urlsafe': model.key.urlsafe(),
             'name': model.name,
             'description': model.description,
             'items': report_format['format'] if 'format' in report_format else [],
