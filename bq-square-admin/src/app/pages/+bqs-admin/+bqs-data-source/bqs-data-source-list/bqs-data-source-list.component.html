@@ -1,0 +1,68 @@
+<button mat-mini-fab class="fab" routerLink="/admin/data_source/edit">
+  <mat-icon>add</mat-icon>
+</button>
+
+<mat-progress-bar *ngIf="loading | async" mode="indeterminate"></mat-progress-bar>
+
+<div class="bqs-primary-header">
+  <h1>Data Sources</h1>
+</div>
+
+<div class="model-list-table">
+  <div class="table mat-elevation-z8">
+
+    <div class="table-header">
+      <mat-form-field floatPlaceholder="never">
+        <input matInput #filter placeholder="Filter">
+      </mat-form-field>
+    </div>
+
+    <mat-table #table [dataSource]="data_source$">
+
+      <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
+
+      <!-- ID Column -->
+      <ng-container cdkColumnDef="id">
+        <mat-header-cell *cdkHeaderCellDef> ID</mat-header-cell>
+        <mat-cell *cdkCellDef="let row"> {{row.id}}</mat-cell>
+      </ng-container>
+
+      <!-- Type Column -->
+      <ng-container cdkColumnDef="type">
+        <mat-header-cell *cdkHeaderCellDef> Type</mat-header-cell>
+        <mat-cell *cdkCellDef="let row"> {{row.type}}</mat-cell>
+      </ng-container>
+
+      <!-- Created Column -->
+      <ng-container cdkColumnDef="created">
+        <mat-header-cell *cdkHeaderCellDef> Created</mat-header-cell>
+        <mat-cell *cdkCellDef="let row"> {{row.created}}</mat-cell>
+      </ng-container>
+
+      <!-- Updated Column -->
+      <ng-container cdkColumnDef="updated">
+        <mat-header-cell *cdkHeaderCellDef> Updated</mat-header-cell>
+        <mat-cell *cdkCellDef="let row"> {{row.updated}}</mat-cell>
+      </ng-container>
+
+      <!-- Control Column -->
+      <ng-container cdkColumnDef="control">
+        <mat-header-cell *cdkHeaderCellDef></mat-header-cell>
+        <mat-cell *cdkCellDef="let row">
+          <button mat-icon-button routerLink="/admin/data_source/edit/{{row.urlsafe}}">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="del(row.urlsafe)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+
+      <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *cdkRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+  </div>
+</div>
