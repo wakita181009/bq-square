@@ -6,8 +6,9 @@ import time
 from google.appengine.api import memcache
 from jinja2 import Template
 from plugins.base_handler import BaseHandler, user_required
-from .models import QueryModel, ReportModel, GlobalKeyModel, GlobalValueModel
-from src.plugins.utils._json import to_json
+from .models import DataSourceModel, QueryModel, ReportModel, GlobalKeyModel, GlobalValueModel
+from src.plugins.utils.to_json import to_json
+from src.plugins.base_handler import import_class
 
 
 class GetReportHandler(BaseHandler):
@@ -103,7 +104,7 @@ class RunQueryHandler(BaseHandler):
         # except ValueError as e:
         #     return self.handle_error(e)
 
-        result_obj = self._run_query(query_id)
+        result_obj = self.run_query(query_id)
 
         if t == 'table':
             table_formatted_result = self._format_data_table(result_obj)
@@ -116,7 +117,6 @@ class RunQueryHandler(BaseHandler):
             except ValueError as e:
                 return self.handle_error(e)
 
-            result_obj = self._run_query(query_id)
             plot_formatted_result = self._format_chart(_format['format'], result_obj)
             return self.handle_json({
                 "result": plot_formatted_result
@@ -127,7 +127,6 @@ class RunQueryHandler(BaseHandler):
             except ValueError as e:
                 return self.handle_error(e)
 
-            result_obj = self._run_query(query_id)
             formatted_result = self._format_plot(_format['format'], result_obj)
             return self.handle_json({
                 "result": formatted_result
@@ -137,7 +136,21 @@ class RunQueryHandler(BaseHandler):
                 "result": result_obj
             })
 
-    def _run_query(self, query_id):
+    def module(self, module_name):
+        return import_class(module_name)
+
+    def module_name(self, data_source_type):
+        module_map = {
+            "bigquery": "src.modules.bigquery.BigqueryModule",
+            "cloudsql": "src.modules.cloudsql.CloudsqlModule"
+        }
+        name = module_map.get(data_source_type)
+        if not name:
+            self.handle_error_string("No module for this Data Source")
+
+        return name
+
+    def run_query(self, query_id):
         role = self.user.role
         if role != "owner" and role != "admin" \
                 and query_id not in self.user.authorized_query_id:
@@ -150,6 +163,7 @@ class RunQueryHandler(BaseHandler):
 
         params = self.request.GET.mixed()
         self.check_query_params(params)
+        # self.check_query_table(query)
 
         cache_key = None
 
@@ -165,50 +179,25 @@ class RunQueryHandler(BaseHandler):
                 logging.info('Cached result')
                 return json.loads(result)
 
-        app = webapp2.get_app()
-        bigquery_client = app.registry.get('bigquery_client')
-        if not bigquery_client:
-            from google.cloud import bigquery
-            bigquery_client = bigquery.Client()
-            app.registry['bigquery_client'] = bigquery_client
+        data_source_model = DataSourceModel.get_by_id(query_model.data_source_id)
+        module_name = self.module_name(data_source_model.type)
+        module = self.module(module_name)
 
         query_str = query_model.query_str
         query = Template(query_str).render(params)
-        # self.check_query_table(query)
 
-        query = bigquery_client.run_sync_query(query)
-        query.use_legacy_sql = False
-        query.use_query_cache = True
-        query.timeout_ms = 120
-        query.run()
-        page_token = None
+        module_instance = module(data_source_model, query)
 
-        job = query.job
-        job.reload()
-        retry_count = 0
+        result = None
+        try:
+            result = module_instance.execute_query()
+        except Exception as e:
+            self.handle_error(e)
 
-        while retry_count < 5 and job.state != u'DONE':
-            time.sleep(1)
-            job.reload()
+        if query_model.cache:
+            memcache.add(cache_key, to_json(result), time=1800)
 
-        while True:
-            rows, total_rows, page_token = query.fetch_data(
-                max_results=1000,
-                page_token=page_token)
-            result_obj = {
-                "schema": [s.name for s in query.schema],
-                "rows": [list(row) for row in rows],
-                "count": len(rows)
-            }
-            result = to_json(result_obj)
-
-            if query_model.cache:
-                memcache.add(cache_key, result, time=1800)
-
-            if not page_token:
-                break
-
-        return result_obj
+        return result
 
     # def check_query_table(self, query):
     #     match = re.findall(r'from\s+`([A-Za-z_][A-Za-z_0-9\.\-]+)`', query, flags=re.IGNORECASE)

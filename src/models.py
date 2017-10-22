@@ -3,8 +3,24 @@ from src.plugins.base_models import BaseExpandoModel, BaseExpandoModelWithUnique
 from google.appengine.ext import ndb
 
 
+class DataSourceModel(BaseExpandoModel):
+    type = ndb.StringProperty(required=True,
+                              choices=['bigquery', 'cloudsql'])
+    """
+    bigquery
+        - id
+    cloudsql
+        - id
+        - cloudsql_connection_name
+        - cloudsql_user
+        - cloudsql_password
+        - cloudsql_db
+    """
+
+
 class QueryModel(BaseExpandoModel):
     name = ndb.StringProperty(required=True)
+    data_source_id = ndb.StringProperty(required=True)
     query_str = ndb.TextProperty(required=True)
     cache = ndb.BooleanProperty(default=True, required=True)
 
@@ -20,7 +36,7 @@ class ReportModel(BaseExpandoModel):
 class GlobalKeyModel(BaseExpandoModel):
     display_name = ndb.StringProperty(required=True)
     type = ndb.StringProperty(required=True,
-                              default="",
+                              default="FREEFORM",
                               choices=["PREDEFINED", "FREEFORM"])
 
 
