@@ -1,5 +1,7 @@
+# -*- coding: utf-8 -*-
 import os
 import MySQLdb
+from MySQLdb import converters
 
 
 class CloudsqlModule(object):
@@ -13,6 +15,10 @@ class CloudsqlModule(object):
         cloudsql_password = self.data_source_model.cloudsql_password
         cloudsql_db = self.data_source_model.cloudsql_db
 
+        conv = converters.conversions.copy()
+        conv[246] = float  # convert decimals to floats
+        conv[10] = str  # convert
+
         # When deployed to App Engine, the `SERVER_SOFTWARE` environment variable
         # will be set to 'Google App Engine/version'.
         if os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine/'):
@@ -25,7 +31,9 @@ class CloudsqlModule(object):
                 unix_socket=cloudsql_unix_socket,
                 user=cloudsql_user,
                 passwd=cloudsql_password,
-                db=cloudsql_db)
+                db=cloudsql_db,
+                charset='utf8',
+                conv=conv)
 
         # If the unix socket is unavailable, then try to connect using TCP. This
         # will work if you're running a local MySQL server or using the Cloud SQL
@@ -35,7 +43,11 @@ class CloudsqlModule(object):
         #
         else:
             db = MySQLdb.connect(
-                host='127.0.0.1', user=cloudsql_user, passwd=cloudsql_password, db=cloudsql_db)
+                host='127.0.0.1',
+                user=cloudsql_user,
+                passwd=cloudsql_password,
+                db=cloudsql_db,
+                conv=conv)
 
         return db
 
