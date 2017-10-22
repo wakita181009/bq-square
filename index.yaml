@@ -1,5 +1,10 @@
 indexes:
 
+- kind: DataSourceModel
+  properties:
+  - name: deleted
+  - name: created
+
 - kind: QueryModel
   properties:
   - name: deleted
