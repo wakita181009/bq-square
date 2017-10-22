@@ -1,4 +1,6 @@
 <div class="chart-js-container" *ngIf="data?.result">
+  <h3 *ngIf="data?.name">{{data?.name}}</h3>
+
   <canvas baseChart
           [datasets]="data?.result?.datasets"
           [labels]="data?.result?.labels"

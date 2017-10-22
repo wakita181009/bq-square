@@ -1,5 +1,7 @@
 <div class="data-table-container">
 
+  <h3 *ngIf="data?.name">{{data?.name}}</h3>
+
   <mat-table #table [dataSource]="table_data$">
     <ng-template ngFor let-item let-i="index" [ngForOf]="table_schema">
 
