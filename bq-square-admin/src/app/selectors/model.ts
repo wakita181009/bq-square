@@ -23,3 +23,14 @@ export const userEmailsSelector = createSelector(
     return arr
   }
 );
+
+export const dataSourceIDSelector = createSelector(
+  createModelStateSelector('data_source'),
+  (dataSourceModelState: IModelStore) => {
+    let arr = [];
+    for (let item of dataSourceModelState.items) {
+      arr.push(item.id)
+    }
+    return arr
+  }
+);

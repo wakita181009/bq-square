@@ -3,6 +3,12 @@ const TOP = {
   href: "/"
 };
 
+const DATA_SOURCE = {
+  id: "data_source",
+  name: "Data Source",
+  href: "/admin/data_source"
+};
+
 const QUERY = {
     id: "query",
     name: "Query",
@@ -29,12 +35,14 @@ const USER = {
 
 const access_authorizations = {
   "owner": [
+    DATA_SOURCE,
     QUERY,
     REPORT,
     KEY_VALUE,
     USER
   ],
   "admin": [
+    DATA_SOURCE,
     QUERY,
     REPORT,
     KEY_VALUE,

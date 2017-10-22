@@ -4,9 +4,13 @@ export interface IModelServiceOptions {
 }
 
 export const modelServiceOptions: {[key: string]: IModelServiceOptions} = {
+  data_source: {
+    name: 'data_source',
+    updatable_properties: ['cloudsql_connection_name', 'cloudsql_user', 'cloudsql_password', 'cloudsql_db']
+  },
   query: {
     name: 'query',
-    updatable_properties: ['name', 'query_str', 'cache', 'destination_table']
+    updatable_properties: ['name', 'data_source_id', 'query_str', 'cache', 'destination_table']
   },
   report: {
     name: 'report',
@@ -52,6 +56,15 @@ export interface IModelStore {
 }
 
 export const modelInitialState: {[key: string]: IModelStore} = {
+  data_source: {
+    items: [],
+    loading: false,
+    reloading: false,
+    form: {
+      type: "bigquery"
+    },
+    error: null
+  },
   query: {
     items: [],
     loading: false,
@@ -59,6 +72,7 @@ export const modelInitialState: {[key: string]: IModelStore} = {
     form: {
       id: "",
       name: "",
+      data_source_id: "bigquery",
       query_str: "",
       cache: true
     },
@@ -98,16 +112,14 @@ export const modelInitialState: {[key: string]: IModelStore} = {
     items: [],
     loading: false,
     reloading: false,
-    form: {
-    },
+    form: {},
     error: null
   },
   global_value: {
     items: [],
     loading: false,
     reloading: false,
-    form: {
-    },
+    form: {},
     error: null
   }
 };

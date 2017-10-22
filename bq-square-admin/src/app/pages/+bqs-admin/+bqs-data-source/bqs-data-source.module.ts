@@ -9,22 +9,21 @@ import {IAppState} from 'app/types';
 import {createModelReducer} from 'app/store/model/model.reducer';
 import {injectAsyncReducer} from 'app/store/root.reducer';
 
-import {BqsQueryRoutingModule} from './bqs-query-routing.module';
-import {BqsQueryListComponent} from './bqs-query-list/bqs-query-list.component';
-import {BqsQueryEditComponent} from './bqs-query-edit/bqs-query-edit.component';
+import {BqsDataSourceRoutingModule} from './bqs-data-source-routing.module';
+import {BqsDataSourceListComponent} from './bqs-data-source-list/bqs-data-source-list.component';
+import {BqsDataSourceEditComponent} from './bqs-data-source-edit/bqs-data-source-edit.component';
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
     BqsAdminSharedModule,
-    BqsQueryRoutingModule
+    BqsDataSourceRoutingModule
   ],
-  declarations: [BqsQueryListComponent, BqsQueryEditComponent]
+  declarations: [BqsDataSourceListComponent, BqsDataSourceEditComponent]
 })
-export class BqsQueryModule {
+export class BqsDataSourceModule {
   constructor(private store: NgRedux<IAppState>) {
     injectAsyncReducer(this.store, 'data_source', createModelReducer('data_source'));
-    injectAsyncReducer(this.store, 'query', createModelReducer('query'));
   }
 }

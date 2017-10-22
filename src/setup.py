@@ -4,7 +4,7 @@ import os
 from .plugins.base_handler import BaseHandler
 from .plugins.user import verify_google_token
 from google.appengine.ext import ndb
-from .models import QueryModel, ReportModel, GlobalKeyModel
+from .models import DataSourceModel, QueryModel, ReportModel, GlobalKeyModel
 
 GOOGLE_CLIENT_ID = os.environ['GOOGLE_CLIENT_ID']
 OWNER = os.environ['OWNER']
@@ -59,9 +59,17 @@ class SetupHandler(BaseHandler):
             except Exception as e:
                 return self.handle_error(e)
 
+            data_source = {
+                "id": "bigquery",
+                "type": "bigquery"
+            }
+
+            ndb.transaction(lambda: DataSourceModel.create(**data_source), xg=True)
+
             query = {
                 "id": "test",
                 "name": "TEST",
+                "data_source_id": "bigquery",
                 "query_str": """
 SELECT SUM(totals.pageviews) as TotalPageviews
 FROM `google.com:analytics-bigquery.LondonCycleHelmet.ga_sessions_20130910`

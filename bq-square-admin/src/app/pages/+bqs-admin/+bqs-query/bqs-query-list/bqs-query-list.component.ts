@@ -15,7 +15,7 @@ import {createModelLoadingSelector} from 'app/selectors/model';
   styleUrls: ['./bqs-query-list.component.scss'],
 })
 export class BqsQueryListComponent implements OnInit {
-  displayedColumns = ['id', 'name', 'cache', 'created', 'updated', 'control'];
+  displayedColumns = ['id', 'name', 'data_source_id', 'cache', 'created', 'updated', 'control'];
 
   @ViewChild('filter') filter: ElementRef;
 

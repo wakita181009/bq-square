@@ -8,7 +8,7 @@
   <h1>Queries</h1>
 </div>
 
-<div class="query-list-table">
+<div class="model-list-table">
   <div class="table mat-elevation-z8">
 
     <div class="table-header">
@@ -32,6 +32,12 @@
       <ng-container cdkColumnDef="name">
         <mat-header-cell *cdkHeaderCellDef> Name</mat-header-cell>
         <mat-cell *cdkCellDef="let row"> {{row.name}}</mat-cell>
+      </ng-container>
+
+      <!-- Data Source ID Column -->
+      <ng-container cdkColumnDef="data_source_id">
+        <mat-header-cell *cdkHeaderCellDef> Data Source ID</mat-header-cell>
+        <mat-cell *cdkCellDef="let row"> {{row.data_source_id}}</mat-cell>
       </ng-container>
 
       <!-- Cache Column -->

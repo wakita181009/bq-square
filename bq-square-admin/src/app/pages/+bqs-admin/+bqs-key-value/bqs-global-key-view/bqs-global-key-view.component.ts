@@ -36,6 +36,8 @@ export class BqsGlobalKeyViewComponent implements OnDestroy {
         this.store.dispatch(this.modelActions.readModel('global_key', urlsafe));
       });
 
+    this.store.dispatch(this.modelActions.listModel('user'));
+
     this.global_key$.subscribe((k) => {
       this.isPredefined = k.type === 'PREDEFINED';
       if (this.isPredefined) {
@@ -47,7 +49,6 @@ export class BqsGlobalKeyViewComponent implements OnDestroy {
             ));
           this._global_id = id;
         }
-        this.store.dispatch(this.modelActions.listModel('user'));
       }
     });
 

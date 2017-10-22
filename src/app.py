@@ -42,6 +42,7 @@ config = {
 
 app = webapp2.WSGIApplication([
     UserRESTHandler("/api/v1/user"),
+    RESTHandler("/api/v1/data_source", model="src.models.DataSourceModel"),
     RESTHandler("/api/v1/query", model="src.models.QueryModel"),
     RESTHandler("/api/v1/report", model="src.models.ReportModel"),
     RESTHandler("/api/v1/global_key", model="src.models.GlobalKeyModel"),
