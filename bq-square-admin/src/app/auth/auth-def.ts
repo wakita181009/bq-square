@@ -4,6 +4,12 @@ const TOP = {
   href: '/'
 };
 
+const SQUARE = {
+  id: "square",
+  path: /^\/square.*$/,
+  href: '/square'
+};
+
 const DATA_SOURCE = {
   id: "data_source",
   name: "Data Source",
@@ -61,7 +67,8 @@ const access_authorizations = {
   "viewer": [],
   "view_admin": [],
   "all": [
-    TOP
+    TOP,
+    SQUARE
   ]
 };
 
