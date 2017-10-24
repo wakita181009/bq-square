@@ -53,10 +53,6 @@ def user_required(handler):
             access_authorizations = self.config['access_authorizations']
             my_access_authorizations = access_authorizations.get(role)
 
-            print "======"
-            print path, role, my_access_authorizations
-            print "======"
-
             if my_access_authorizations:
                 for pattern in my_access_authorizations:
                     result = re.match(pattern, path)

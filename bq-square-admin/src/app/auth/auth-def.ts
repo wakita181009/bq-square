@@ -59,6 +59,7 @@ const access_authorizations = {
   //   REPORT
   // ],
   "viewer": [],
+  "view_admin": [],
   "all": [
     TOP
   ]

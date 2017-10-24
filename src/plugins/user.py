@@ -40,7 +40,7 @@ class UserModel(BaseExpandoModelWithUnique):
     email = ndb.StringProperty(required=True)
     role = ndb.StringProperty(required=True,
                               default="viewer",
-                              choices=["owner", "admin", "editor", "viewer"])
+                              choices=["owner", "admin", "editor", "view_admin", "viewer"])
 
     UNIQUE_PROPERTIES = ["email"]
 

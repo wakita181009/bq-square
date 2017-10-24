@@ -30,6 +30,12 @@ config = {
             #     r'^/report_info',
             #     r'^/run_query'
             # ],
+            'view_admin': [
+                r'^/getReport/.*$',
+                r'^/getReportList$',
+                r'^/getGlobalKeyValue/.*$',
+                r'^/run_query/.*$'
+            ],
             'viewer': [
                 r'^/getReport/.*$',
                 r'^/getReportList$',

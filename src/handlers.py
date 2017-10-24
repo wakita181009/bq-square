@@ -23,7 +23,7 @@ class GetReportHandler(BaseHandler):
         if not model:
             return self.handle_error_string('Wrong report requested')
 
-        if role not in ["owner", "admin"]:
+        if role not in ["owner", "admin", "view_admin"]:
             if model.key.id() not in self.user.report_id:
                 self.handle_error_string("You cannot access this report", 403)
 
@@ -43,7 +43,7 @@ class GetReportListHandler(BaseHandler):
     @user_required
     def get(self):
         role = self.user.role
-        if role == "owner" or role == "admin":
+        if role in ["owner", "admin", "view_admin"]:
             q = ReportModel.list()
             return self.handle_json({
                 "count": q.count(),
@@ -68,7 +68,7 @@ class GetGlobalKeyValueHandler(BaseHandler):
         if not global_key:
             return self.handle_error_string('Wrong key name')
         if global_key.type == "PREDEFINED":
-            if self.user.role == "owner" or self.user.role == "admin":
+            if self.user.role in ["owner", "admin", "view_admin"]:
                 return self.handle_json({
                     "id": global_key.key.id(),
                     "display_name": global_key.display_name,
@@ -138,7 +138,10 @@ class RunQueryHandler(BaseHandler):
             })
 
     def module(self, module_name):
-        return import_class(module_name)
+        try:
+            return import_class(module_name)
+        except Exception as e:
+            self.handle_error_string('Wrong data source')
 
     def module_name(self, data_source_type):
         module_map = {
@@ -153,7 +156,7 @@ class RunQueryHandler(BaseHandler):
 
     def run_query(self, query_id):
         role = self.user.role
-        if role != "owner" and role != "admin" \
+        if role not in ["owner", "admin", "view_admin"] \
                 and query_id not in self.user.authorized_query_id:
             self.handle_error_string('You cannot access this query', 403)
 
@@ -209,7 +212,7 @@ class RunQueryHandler(BaseHandler):
             global_key = GlobalKeyModel.get_by_id(key)
             if global_key and global_key.type == "PREDEFINED":
                 global_value = GlobalValueModel.get_by_id(value, parent=global_key.key)
-                if self.user.role != "owner" and self.user.role != "admin" \
+                if self.user.role not in ["owner", "admin", "view_admin"] \
                         and self.user.email not in global_value.authorized_user_email:
                     self.handle_error_string('Wrong key-value', 403)
 
