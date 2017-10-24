@@ -1,36 +1,42 @@
 const TOP = {
   id: "top",
-  href: "/"
+  path: /^\/$/,
+  href: '/'
 };
 
 const DATA_SOURCE = {
   id: "data_source",
   name: "Data Source",
-  href: "/admin/data_source"
+  path: /^\/admin\/data_source.*/,
+  href: '/admin/data_source'
 };
 
 const QUERY = {
     id: "query",
     name: "Query",
-    href: "/admin/query"
+  path: /^\/admin\/query.*/,
+  href: '/admin/query'
   };
 
 const REPORT = {
   id: "report",
   name: "Report",
-  href: "/admin/report"
+  path: /^\/admin\/report.*/,
+  href: '/admin/report'
 };
 
 const KEY_VALUE = {
   id: "key_value",
   name: "GlobalKeyValue",
-  href: "/admin/key_value"
+  path: /^\/admin\/key_value.*/,
+  href: '/admin/key_value'
 };
 
 const USER = {
   id: "user",
   name: "User",
-  href: "/admin/user"
+  path: /^\/admin\/user.*/,
+  href: '/admin/user'
 };
 
 const access_authorizations = {
@@ -67,8 +73,9 @@ export function _getNavbar(role) {
 export function _authenticatePath(role, path) {
   let my_access_authorizations =
     [...access_authorizations[role], ...access_authorizations['all']] || [];
+
   for (let p of my_access_authorizations) {
-    if (path.indexOf(p.href) === 0) return true
+    if (p.path.test(path)) return true
   }
   return false
 }
