@@ -69,7 +69,7 @@ export const squareReducer: Reducer<ISquareStore> =
           _state
         );
       case SquareActions.RUN_QUERY_COMPLETED:
-        if (state.active.items[action.payload['index']]) return;
+        if (!state.active.items[action.payload['index']]) return state;
         return assocPath(
           ['active', 'items', action.payload['index'], 'loading'],
           false,
