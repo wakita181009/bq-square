@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
-import re
 import datetime
 from google.appengine.ext import ndb
-from webapp2_extras.routes import NamePrefixRoute
 
 from .unique_model import Unique, UniqueModelError
 
