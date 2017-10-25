@@ -12,11 +12,11 @@
     "build:prod": "npm run build:admin:prod; gulp;",
     "build:admin": "cd bq-square-admin; npm run build;",
     "build:admin:prod": "cd bq-square-admin; npm run prod-build;",
-    "appcfg": "cd dist; gcloud app deploy --project bq-square --version v1 app.yaml -q;",
+    "appcfg": "cd dist; gcloud app deploy --version v1 app.yaml -q --project",
     "deploy": "npm run build:prod; npm run appcfg;",
-    "update-indexes": "gcloud app deploy index.yaml -q --project bq-square",
-    "create-indexes": "gcloud datastore create-indexes index.yaml --project bq-square",
-    "clear-indexes": "gcloud datastore cleanup-indexes --project bq-square index.yaml",
+    "update-indexes": "gcloud app deploy index.yaml -q --project",
+    "create-indexes": "gcloud datastore create-indexes index.yaml --project",
+    "clear-indexes": "gcloud datastore cleanup-indexes index.yaml --project",
     "create-rsa:dev": "ssh-keygen -t rsa -b 4096 -f ./rsa/dev_rsa; openssl rsa -in ./rsa/dev_rsa -pubout -outform PEM -out ./rsa/dev_rsa.pub;",
     "create-rsa:prod": "ssh-keygen -t rsa -b 4096 -f ./rsa/prod_rsa; openssl rsa -in ./rsa/prod_rsa -pubout -outform PEM -out ./rsa/prod_rsa.pub;"
   }
