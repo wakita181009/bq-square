@@ -30,8 +30,17 @@ npm run create-rsa:dev
 
 Recommended using different keys between dev and prod environment.
 
-* Edit GAE configuration file.
-Copy `example_app.yaml` with file name `dev_app.yaml`.  
+* #### Edit GAE configuration file.
+Copy `example_app.yaml` with file name `dev_app.yaml`.    
+Add `application: [YOUR_PROJECT_ID]` at the top of `dev_app.yaml`.
+```yaml
+application: [YOUR_PROJECT_ID]
+runtime: python27
+api_version: 1
+threadsafe: yes
+```
+(`application` should only be set in local environment.)
+
 Then, Edit the `env_variables`, here is a example:
 ```yaml
 env_variables:
@@ -40,22 +49,53 @@ env_variables:
   JWT_ALGORITHM: RS256
   JWT_PUBLIC_KEY: |-
     -----BEGIN PUBLIC KEY-----
-    MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA3tem5AUMDVq0yhOXPTJM
-    XlVbP+d7q7bSZyRawkgX3En7mSReUROtEdrod07qsFybdzrcAnb0O4SmNiKE+n85
-    8UQENbTgoeIaG4gpbuHbbOV37ozTCdMbfckvq6Zf/iL+kSgGO3n5+IHijTlb/jld
-    C0BfoExgm1SIfugqdVf/4ATvSINgC+WswaEW3OAAe6yUvpFYS8v/wMLgRNlAvtIK
-    edIB9fSghOTCUwtQ0l1T0ZoQkDvS6Ts6KOGpZXPbpVSly3IX1VPyBJDs302wXV9N
-    p2W266qdwXOz+CJO6MefzXpnBHBXOEUvibxKY2i/K/oa8Vun2DQi8ustXGPym39I
-    NjsSszbHO9tnD1l4W8gbzydSe37uSydQ6Sx8mW+faHst5x4PAWWCXCxgMM2vdOHC
-    RejWEQGf0rYz56rIa/rIWM9sdnLjXO3mGhFKtAH9PZoX25Zuz/N0dSX+rAn7AM/s
-    gVQthJ2kUNVjZAb98K1ZCmi7qOlTy/5zYMnIvo5Vu1bvhr87qq3A5KLXq9EbSnAC
-    rEga144tnxrlD2ocTrpevPnIKAhpfoV3DnNXeOo0ZYrZsulg0MQ9oxA2JLOgRI0E
-    ypcjstFbDwWBAA14BLHc6VAUskQYBgPwcOzvYf/5qYXeMbExmxfeVEbFxb6RyHWa
-    ifBM/hs+Q3IUU4Yq0Fm5f8sCAwEAAQ==
+    ...
     -----END PUBLIC KEY-----
-  JWT_PRIVATE_KEY: YOUR_PRIVATE_KEY
+  JWT_PRIVATE_KEY: |-
+    -----BEGIN RSA PRIVATE KEY-----
+    ...
+    -----END RSA PRIVATE KEY-----
+
   OWNER: example@example.com
 ```
+
+##### variables
+| variable   | notes       |
+|----------|---------------|
+| CLIENT | URL set in `Access-Control-Allow-Origin` HTTP header, please specify `http://localhost:4200` in local environment. |
+| GOOGLE_CLIENT_ID | Client ID for Google Login. |
+| JWT_ALGORITHM | JWT Algorithm, please specify `RS256`. |
+| JWT_PUBLIC_KEY | Copy your public key from `rsa/dev_rsa.pub`. |
+| JWT_PRIVATE_KEY | Copy your private key from `rsa/dev_rsa`. |
+| OWNER | Owner user email in your application, please specify a gmail address. |
+
+
+* #### Edit Angular environments file.
+Copy `bq-square-admin/src/environments/environment.example.ts` as `environment.ts`.
+This is a environments file for Angular local environment.
+Change the variables:
+```typescript
+export const environment = {
+    production: false,
+    project_name: 'YOUR PROJECT NAME',
+    API_URL: 'http://localhost:8080',
+    PUBLIC_KEY: '-----BEGIN PUBLIC KEY-----\
+                ...\
+                -----END PUBLIC KEY-----',
+    GOOGLE_CLIENT_ID: '************.apps.googleusercontent.com'
+};
+```
+
+##### variables
+| variable   | notes       |
+|----------|---------------|
+| production | Please specify `false` in local environment. |
+| project_name | Project Name display in UI. |
+| API_URL | API base URL, please specify `http://localhost:8080` in local environment. This is the GAE `dev_appserver`'s URL. |
+| PUBLIC_KEY | Copy your public key from `rsa/dev_rsa.pub`. |
+| GOOGLE_CLIENT_ID | Client ID for Google Login. |
+
+
 
 * #### Start in local environment.
 Start GAE local dev server.
@@ -66,3 +106,4 @@ And then, open another terminal window, and run:
 ```bash
 cd bq-square-admin; npm start;
 ```
+Go to `http://localhost:4200/` in your browser.
