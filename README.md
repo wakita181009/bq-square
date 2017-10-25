@@ -1,6 +1,8 @@
 # BQ-Square
 BI Dashboard for BigQuery & Google Cloud SQL
 
+![](https://user-images.githubusercontent.com/16588724/31981804-575470ba-b990-11e7-80b2-54f118ba05aa.png)
+
 ### Getting Start
 #### - Start a app in local environment
 
