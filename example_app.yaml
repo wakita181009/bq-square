@@ -46,11 +46,11 @@ handlers:
   redirect_http_response_code: 301
 
 env_variables:
-  CLIENT: https://bq-square.appspot.com
-  GOOGLE_CLIENT_ID: YOUR_GOOGLE_CLIENT_ID
+  CLIENT: https://[your-project-id].appspot.com
+  GOOGLE_CLIENT_ID: [YOUR_GOOGLE_CLIENT_ID]
   JWT_ALGORITHM: RS256
-  JWT_PUBLIC_KEY: YOUR_PUBLIC_KEY
-  JWT_PRIVATE_KEY: YOUR_PRIVATE_KEY
+  JWT_PUBLIC_KEY: [YOUR_PUBLIC_KEY]
+  JWT_PRIVATE_KEY: [YOUR_PRIVATE_KEY]
   OWNER: example@example.com
 
 libraries:
