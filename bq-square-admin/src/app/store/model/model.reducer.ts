@@ -45,6 +45,7 @@ export function createModelReducer(modelName: string): Reducer<IModelStore> {
         return tassign(
           state,
           {
+            form: initialState.form,
             loading: false,
             reloading: true
           }
@@ -77,6 +78,14 @@ export function createModelReducer(modelName: string): Reducer<IModelStore> {
           state,
           {
             error: action.payload,
+            loading: false
+          }
+        );
+      case ModelActions.CLEAR_ERROR:
+        return tassign(
+          state,
+          {
+            error: null,
             loading: false
           }
         );
