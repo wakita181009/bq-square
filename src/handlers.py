@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
-import webapp2
 import json
 import logging
-import time
 from google.appengine.api import memcache
 from jinja2 import Template
 from plugins.base_handler import BaseHandler, user_required
@@ -44,7 +42,7 @@ class GetReportListHandler(BaseHandler):
     def get(self):
         role = self.user.role
         if role in ["owner", "admin", "view_admin"]:
-            q = ReportModel.list()
+            q = ReportModel.list(orders=[ReportModel.order])
             return self.handle_json({
                 "count": q.count(),
                 "list": ReportModel.models_to_dict_list(q.fetch())
@@ -54,7 +52,7 @@ class GetReportListHandler(BaseHandler):
         report_model_list = [model for model in _report_model_list if model and model.deleted is False]
         return self.handle_json({
             "count": len(report_model_list),
-            "list": ReportModel.models_to_dict_list(report_model_list)
+            "list": sorted(ReportModel.models_to_dict_list(report_model_list), key=lambda m: m['order'])
         })
 
 
