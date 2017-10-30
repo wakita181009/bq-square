@@ -7,7 +7,8 @@ BI Dashboard for BigQuery & Google Cloud SQL
 ### - Start a app in local environment
 
 * #### Prepare
-Prepare for Google App Engine & Python:   [https://cloud.google.com/appengine/docs/standard/python/quickstart](https://cloud.google.com/appengine/docs/standard/python/quickstart)
+Prepare for Google App Engine & Python:      
+[https://cloud.google.com/appengine/docs/standard/python/quickstart](https://cloud.google.com/appengine/docs/standard/python/quickstart)
 
 * #### Download
 ```bash
