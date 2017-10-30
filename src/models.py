@@ -55,7 +55,12 @@ class GlobalValueModel(BaseExpandoModel):
 
         del future_values['global_key']
 
-        return super(GlobalValueModel, cls)._pre_create_hook(future_values)
+        for key, value in future_values.items():
+            if (key == ('id' or '_id')) and (cls.get_by_id(value, parent=parent_key) is not None):
+                raise ValueError('ID existed!')
+            if key.lower().endswith("date"):
+                future_values[key] = cls._pre_date_hook(value)
+        return future_values
 
     @classmethod
     def model_to_dict(cls, model):

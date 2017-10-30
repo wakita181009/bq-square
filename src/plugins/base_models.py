@@ -175,7 +175,7 @@ class BaseExpandoModel(ndb.Expando):
     def _pre_create_hook(cls, future_values):
         for key, value in future_values.items():
             if (key == ('id' or '_id')) and (cls.get_by_id(value) is not None):
-                raise ValueError('This ID has existed!')
+                raise ValueError('ID existed!')
             if key.lower().endswith("date"):
                 future_values[key] = cls._pre_date_hook(value)
         return future_values
@@ -220,6 +220,8 @@ class BaseExpandoModelWithUnique(BaseExpandoModel):
         uniques = cls._pre_create_uniques_prep(future_values)
 
         for key, value in future_values.items():
+            if (key == ('id' or '_id')) and (cls.get_by_id(value) is not None):
+                raise ValueError('ID existed!')
             if key.lower().endswith("date"):
                 future_values[key] = cls._pre_date_hook(value)
 
