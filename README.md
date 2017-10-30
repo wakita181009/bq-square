@@ -4,9 +4,10 @@ BI Dashboard for BigQuery & Google Cloud SQL
 ![](https://user-images.githubusercontent.com/16588724/31981804-575470ba-b990-11e7-80b2-54f118ba05aa.png)
 
 ### Getting Start
-#### - Start a app in local environment
+### - Start a app in local environment
 
 * #### Prepare
+Prepare for Google App Engine & Python:   [https://cloud.google.com/appengine/docs/standard/python/quickstart](https://cloud.google.com/appengine/docs/standard/python/quickstart)
 
 * #### Download
 ```bash
@@ -109,3 +110,5 @@ And then, open another terminal window, and run:
 cd bq-square-admin; npm start;
 ```
 Go to `http://localhost:4200/` in your browser.
+
+### - Start in
