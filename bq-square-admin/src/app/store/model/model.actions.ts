@@ -31,6 +31,7 @@ export class ModelActions {
   static readonly END_RELOADING = "END_RELOADING";
   static readonly NEW_FORM = "NEW_FORM";
   static readonly MODEL_ERROR = "MODEL_ERROR";
+  static readonly CLEAR_ERROR = "CLEAR_ERROR";
 
   static readonly PUSH_ARRAY_ITEM = "PUSH_ARRAY_ITEM";
   static readonly REMOVE_ARRAY_ITEM = "REMOVE_ARRAY_ITEM";
@@ -135,6 +136,13 @@ export class ModelActions {
       type: ModelActions.MODEL_ERROR,
       meta: {modelName},
       payload
+    }
+  }
+
+  clearError(modelName: string): FSA<void, IModelMeta> {
+    return {
+      type: ModelActions.CLEAR_ERROR,
+      meta: {modelName}
     }
   }
 
