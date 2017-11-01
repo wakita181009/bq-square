@@ -18,7 +18,8 @@ import {
   MatSidenavModule,
   MatIconModule,
   MatTableModule,
-  MatPaginatorModule
+  MatPaginatorModule,
+  MatSortModule
 } from '@angular/material';
 import {CdkTableModule} from '@angular/cdk/table';
 import {TagInputModule} from 'ngx-chips';
@@ -51,6 +52,7 @@ const mat_MODULES = [
   MatTableModule,
   CdkTableModule,
   MatPaginatorModule,
+  MatSortModule,
   TagInputModule,
   ExpansionPanelsModule
 ];

@@ -14,44 +14,44 @@
     </mat-form-field>
   </div>
 
-  <mat-table #table [dataSource]="query$">
+  <mat-table #table [dataSource]="query$" matSort>
 
     <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
 
     <!-- ID Column -->
     <ng-container cdkColumnDef="id">
-      <mat-header-cell *cdkHeaderCellDef> ID</mat-header-cell>
+      <mat-header-cell *cdkHeaderCellDef mat-sort-header> ID</mat-header-cell>
       <mat-cell *cdkCellDef="let row"> {{row.id}}</mat-cell>
     </ng-container>
 
     <!-- Name Column -->
     <ng-container cdkColumnDef="name">
-      <mat-header-cell *cdkHeaderCellDef> Name</mat-header-cell>
+      <mat-header-cell *cdkHeaderCellDef mat-sort-header> Name</mat-header-cell>
       <mat-cell *cdkCellDef="let row"> {{row.name}}</mat-cell>
     </ng-container>
 
     <!-- Data Source ID Column -->
     <ng-container cdkColumnDef="data_source_id">
-      <mat-header-cell *cdkHeaderCellDef> Data Source ID</mat-header-cell>
+      <mat-header-cell *cdkHeaderCellDef mat-sort-header> Data Source ID</mat-header-cell>
       <mat-cell *cdkCellDef="let row"> {{row.data_source_id}}</mat-cell>
     </ng-container>
 
     <!-- Cache Column -->
     <ng-container cdkColumnDef="cache">
-      <mat-header-cell *cdkHeaderCellDef> Cache</mat-header-cell>
+      <mat-header-cell *cdkHeaderCellDef mat-sort-header> Cache</mat-header-cell>
       <mat-cell *cdkCellDef="let row"> {{row.cache}}</mat-cell>
     </ng-container>
 
     <!-- Created Column -->
     <ng-container cdkColumnDef="created">
-      <mat-header-cell *cdkHeaderCellDef> Created</mat-header-cell>
+      <mat-header-cell *cdkHeaderCellDef mat-sort-header> Created</mat-header-cell>
       <mat-cell *cdkCellDef="let row"> {{row.created}}</mat-cell>
     </ng-container>
 
     <!-- Updated Column -->
     <ng-container cdkColumnDef="updated">
-      <mat-header-cell *cdkHeaderCellDef> Updated</mat-header-cell>
+      <mat-header-cell *cdkHeaderCellDef mat-sort-header> Updated</mat-header-cell>
       <mat-cell *cdkCellDef="let row"> {{row.updated}}</mat-cell>
     </ng-container>
 
