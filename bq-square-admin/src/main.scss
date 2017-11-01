@@ -72,6 +72,7 @@ code {
   // The rule will match the element following the router-outlet which will be the routed component.
   router-outlet + * {
     flex-grow: 1;
+    height: 100%;
 
     .fab {
       position: absolute;
@@ -123,21 +124,21 @@ plotlychart {
   width: 90%;
   margin: 20px auto;
 
-  .table {
-    display: flex;
-    flex-direction: column;
-    max-height: 500px;
-    min-width: 300px;
-    overflow: scroll;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100% - 200px);
+  max-height: -webkit-calc(100% - 200px);
+  max-height: -moz-calc(100% - 200px);
+  min-width: 300px;
+  overflow: scroll;
 
-    .table-header {
-      min-height: 64px;
-      display: flex;
-      align-items: baseline;
-      padding: 8px 24px 0;
-      justify-content: space-between;
-      font-size: 13px;
-    }
+  .table-header {
+    min-height: 64px;
+    display: flex;
+    align-items: baseline;
+    padding: 8px 24px 0;
+    justify-content: space-between;
+    font-size: 13px;
   }
 
 }

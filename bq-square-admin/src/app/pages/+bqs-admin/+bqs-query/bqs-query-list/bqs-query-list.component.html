@@ -8,73 +8,71 @@
   <h1>Queries</h1>
 </div>
 
-<div class="model-list-table">
-  <div class="table mat-elevation-z8">
+<div class="model-list-table mat-elevation-z8">
 
-    <div class="table-header">
-      <mat-form-field floatPlaceholder="never">
-        <input matInput #filter placeholder="Filter">
-      </mat-form-field>
-    </div>
-
-    <mat-table #table [dataSource]="query$">
-
-      <!--- Note that these columns can be defined in any order.
-            The actual rendered columns are set as a property on the row definition" -->
-
-      <!-- ID Column -->
-      <ng-container cdkColumnDef="id">
-        <mat-header-cell *cdkHeaderCellDef> ID</mat-header-cell>
-        <mat-cell *cdkCellDef="let row"> {{row.id}}</mat-cell>
-      </ng-container>
-
-      <!-- Name Column -->
-      <ng-container cdkColumnDef="name">
-        <mat-header-cell *cdkHeaderCellDef> Name</mat-header-cell>
-        <mat-cell *cdkCellDef="let row"> {{row.name}}</mat-cell>
-      </ng-container>
-
-      <!-- Data Source ID Column -->
-      <ng-container cdkColumnDef="data_source_id">
-        <mat-header-cell *cdkHeaderCellDef> Data Source ID</mat-header-cell>
-        <mat-cell *cdkCellDef="let row"> {{row.data_source_id}}</mat-cell>
-      </ng-container>
-
-      <!-- Cache Column -->
-      <ng-container cdkColumnDef="cache">
-        <mat-header-cell *cdkHeaderCellDef> Cache</mat-header-cell>
-        <mat-cell *cdkCellDef="let row"> {{row.cache}}</mat-cell>
-      </ng-container>
-
-      <!-- Created Column -->
-      <ng-container cdkColumnDef="created">
-        <mat-header-cell *cdkHeaderCellDef> Created</mat-header-cell>
-        <mat-cell *cdkCellDef="let row"> {{row.created}}</mat-cell>
-      </ng-container>
-
-      <!-- Updated Column -->
-      <ng-container cdkColumnDef="updated">
-        <mat-header-cell *cdkHeaderCellDef> Updated</mat-header-cell>
-        <mat-cell *cdkCellDef="let row"> {{row.updated}}</mat-cell>
-      </ng-container>
-
-      <!-- Control Column -->
-      <ng-container cdkColumnDef="control">
-        <mat-header-cell *cdkHeaderCellDef></mat-header-cell>
-        <mat-cell *cdkCellDef="let row">
-          <button mat-icon-button routerLink="/admin/query/edit/{{row.urlsafe}}">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-icon-button (click)="del(row.urlsafe)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </mat-cell>
-      </ng-container>
-
-
-      <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *cdkRowDef="let row; columns: displayedColumns;"></mat-row>
-    </mat-table>
-
+  <div class="table-header">
+    <mat-form-field floatPlaceholder="never">
+      <input matInput #filter placeholder="Filter">
+    </mat-form-field>
   </div>
+
+  <mat-table #table [dataSource]="query$">
+
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- ID Column -->
+    <ng-container cdkColumnDef="id">
+      <mat-header-cell *cdkHeaderCellDef> ID</mat-header-cell>
+      <mat-cell *cdkCellDef="let row"> {{row.id}}</mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container cdkColumnDef="name">
+      <mat-header-cell *cdkHeaderCellDef> Name</mat-header-cell>
+      <mat-cell *cdkCellDef="let row"> {{row.name}}</mat-cell>
+    </ng-container>
+
+    <!-- Data Source ID Column -->
+    <ng-container cdkColumnDef="data_source_id">
+      <mat-header-cell *cdkHeaderCellDef> Data Source ID</mat-header-cell>
+      <mat-cell *cdkCellDef="let row"> {{row.data_source_id}}</mat-cell>
+    </ng-container>
+
+    <!-- Cache Column -->
+    <ng-container cdkColumnDef="cache">
+      <mat-header-cell *cdkHeaderCellDef> Cache</mat-header-cell>
+      <mat-cell *cdkCellDef="let row"> {{row.cache}}</mat-cell>
+    </ng-container>
+
+    <!-- Created Column -->
+    <ng-container cdkColumnDef="created">
+      <mat-header-cell *cdkHeaderCellDef> Created</mat-header-cell>
+      <mat-cell *cdkCellDef="let row"> {{row.created}}</mat-cell>
+    </ng-container>
+
+    <!-- Updated Column -->
+    <ng-container cdkColumnDef="updated">
+      <mat-header-cell *cdkHeaderCellDef> Updated</mat-header-cell>
+      <mat-cell *cdkCellDef="let row"> {{row.updated}}</mat-cell>
+    </ng-container>
+
+    <!-- Control Column -->
+    <ng-container cdkColumnDef="control">
+      <mat-header-cell *cdkHeaderCellDef></mat-header-cell>
+      <mat-cell *cdkCellDef="let row">
+        <button mat-icon-button routerLink="/admin/query/edit/{{row.urlsafe}}">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button (click)="del(row.urlsafe)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+
+    <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *cdkRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
 </div>
