@@ -8,7 +8,7 @@ import {IAppState} from 'app/types';
 import {createModelReducer} from 'app/store/model/model.reducer';
 import {injectAsyncReducer} from 'app/store/root.reducer';
 
-import {BqsKeyValueRoutingModule} from './bqs-key-value-routing.module';
+import {BqsGlobalKeyValueRoutingModule} from './bqs-global-key-value-routing.module';
 import {BqsGlobalKeyListComponent} from './bqs-global-key-list/bqs-global-key-list.component';
 import {BqsGlobalKeyEditComponent} from './bqs-global-key-edit/bqs-global-key-edit.component';
 import {BqsGlobalKeyViewComponent} from './bqs-global-key-view/bqs-global-key-view.component';
@@ -17,11 +17,11 @@ import {BqsGlobalKeyViewComponent} from './bqs-global-key-view/bqs-global-key-vi
   imports: [
     CommonModule,
     SharedModule,
-    BqsKeyValueRoutingModule
+    BqsGlobalKeyValueRoutingModule
   ],
   declarations: [BqsGlobalKeyListComponent, BqsGlobalKeyEditComponent, BqsGlobalKeyViewComponent]
 })
-export class BqsKeyValueModule {
+export class BqsGlobalKeyValueModule {
   constructor(private store: NgRedux<IAppState>) {
     injectAsyncReducer(this.store, 'user', createModelReducer('user'));
     injectAsyncReducer(this.store, 'global_key', createModelReducer('global_key'));

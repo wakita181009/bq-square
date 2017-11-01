@@ -47,7 +47,7 @@ export class BqsGlobalKeyEditComponent implements OnDestroy {
     switch (this.editMode) {
       case 'Create':
         this.store.dispatch(this.modelActions.createModel('global_key'));
-        this.router.navigate(['admin', 'key_value']);
+        this.router.navigate(['admin', 'global_key_value']);
         break;
       case 'Update':
         this.store.dispatch(this.modelActions.updateModel('global_key', this.urlsafe));

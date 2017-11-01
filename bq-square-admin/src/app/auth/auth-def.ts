@@ -31,11 +31,11 @@ const REPORT = {
   href: '/admin/report'
 };
 
-const KEY_VALUE = {
-  id: "key_value",
+const GLOBAL_KEY_VALUE = {
+  id: "global_key_value",
   name: "GlobalKeyValue",
-  path: /^\/admin\/key_value.*/,
-  href: '/admin/key_value'
+  path: /^\/admin\/global_key_value.*/,
+  href: '/admin/global_key_value'
 };
 
 const USER = {
@@ -50,14 +50,14 @@ const access_authorizations = {
     DATA_SOURCE,
     QUERY,
     REPORT,
-    KEY_VALUE,
+    GLOBAL_KEY_VALUE,
     USER
   ],
   "admin": [
     DATA_SOURCE,
     QUERY,
     REPORT,
-    KEY_VALUE,
+    GLOBAL_KEY_VALUE,
     USER
   ],
   // "editor": [

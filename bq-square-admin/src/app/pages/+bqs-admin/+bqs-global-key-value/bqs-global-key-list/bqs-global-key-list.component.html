@@ -1,4 +1,4 @@
-<button mat-mini-fab class="fab" routerLink="/admin/key_value/edit">
+<button mat-mini-fab class="fab" routerLink="/admin/global_key_value/edit">
   <mat-icon>add</mat-icon>
 </button>
 
@@ -55,10 +55,10 @@
       <ng-container cdkColumnDef="control">
         <mat-header-cell *cdkHeaderCellDef></mat-header-cell>
         <mat-cell *cdkCellDef="let row">
-          <button mat-icon-button routerLink="/admin/key_value/{{row.urlsafe}}">
+          <button mat-icon-button routerLink="/admin/global_key_value/{{row.urlsafe}}">
             <mat-icon>remove_red_eye</mat-icon>
           </button>
-          <button mat-icon-button routerLink="/admin/key_value/edit/{{row.urlsafe}}">
+          <button mat-icon-button routerLink="/admin/global_key_value/edit/{{row.urlsafe}}">
             <mat-icon>edit</mat-icon>
           </button>
           <button mat-icon-button (click)="del(row.urlsafe)">

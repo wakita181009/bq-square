@@ -20,8 +20,8 @@ const routes: Routes = [
     loadChildren: 'app/pages/+bqs-admin/+bqs-user/bqs-user.module#BqsUserModule'
   },
   {
-    path: 'key_value',
-    loadChildren: 'app/pages/+bqs-admin/+bqs-key-value/bqs-key-value.module#BqsKeyValueModule'
+    path: 'global_key_value',
+    loadChildren: 'app/pages/+bqs-admin/+bqs-global-key-value/bqs-global-key-value.module#BqsGlobalKeyValueModule'
   }
 ];
 
