@@ -52,11 +52,11 @@ export class BqsQueryEditComponent implements OnDestroy {
     switch (this.editMode) {
       case 'Create':
         this.store.dispatch(this.modelActions.createModel('query'));
-        this.router.navigate(['admin', 'query']);
         break;
       case 'Update':
         this.store.dispatch(this.modelActions.updateModel('query', this.urlsafe));
     }
+    this.router.navigate(['admin', 'query']);
   }
 
 }
