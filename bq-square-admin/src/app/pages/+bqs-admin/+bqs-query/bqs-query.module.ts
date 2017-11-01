@@ -10,6 +10,7 @@ import {createModelReducer} from 'app/store/model/model.reducer';
 import {injectAsyncReducer} from 'app/store/root.reducer';
 
 import {BqsQueryRoutingModule} from './bqs-query-routing.module';
+import {BqsQueryComponent} from './bqs-query.component';
 import {BqsQueryListComponent} from './bqs-query-list/bqs-query-list.component';
 import {BqsQueryEditComponent} from './bqs-query-edit/bqs-query-edit.component';
 
@@ -20,7 +21,7 @@ import {BqsQueryEditComponent} from './bqs-query-edit/bqs-query-edit.component';
     BqsAdminSharedModule,
     BqsQueryRoutingModule
   ],
-  declarations: [BqsQueryListComponent, BqsQueryEditComponent]
+  declarations: [BqsQueryComponent, BqsQueryListComponent, BqsQueryEditComponent]
 })
 export class BqsQueryModule {
   constructor(private store: NgRedux<IAppState>) {

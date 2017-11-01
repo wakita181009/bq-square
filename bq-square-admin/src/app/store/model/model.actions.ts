@@ -30,7 +30,9 @@ export class ModelActions {
   static readonly DELETE_MODEL_COMPLETED = "DELETE_MODEL_COMPLETED";
   static readonly END_RELOADING = "END_RELOADING";
   static readonly NEW_FORM = "NEW_FORM";
-  static readonly MODEL_ERROR = "MODEL_ERROR";
+  static readonly NEW_MESSAGE = "NEW_MESSAGE";
+  static readonly CLEAR_MESSAGE = "CLEAR_MESSAGE";
+  static readonly NEW_ERROR = "NEW_ERROR";
   static readonly CLEAR_ERROR = "CLEAR_ERROR";
 
   static readonly PUSH_ARRAY_ITEM = "PUSH_ARRAY_ITEM";
@@ -131,9 +133,24 @@ export class ModelActions {
     }
   }
 
-  modelError(modelName: string, payload: any): FSA<any, IModelMeta> {
+  newMessage(modelName: string, payload: any): FSA<any, IModelMeta> {
     return {
-      type: ModelActions.MODEL_ERROR,
+      type: ModelActions.NEW_MESSAGE,
+      meta: {modelName},
+      payload
+    }
+  }
+
+  clearMessage(modelName: string): FSA<void, IModelMeta> {
+    return {
+      type: ModelActions.CLEAR_MESSAGE,
+      meta: {modelName}
+    }
+  }
+
+  newError(modelName: string, payload: any): FSA<any, IModelMeta> {
+    return {
+      type: ModelActions.NEW_ERROR,
       meta: {modelName},
       payload
     }

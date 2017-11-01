@@ -53,20 +53,19 @@ export const squareReducer: Reducer<ISquareStore> =
           }
         );
       case SquareActions.RUN_ALL_QUERY:
-        let _state = state;
         for (let i = 0; i < state.active.items.length; i++) {
           if (state.active.items[i]['type'].indexOf('input_') !== 0) {
-            _state = assocPath(
+            state = assocPath(
               ['active', 'items', i, 'loading'],
               true,
-              _state
+              state
             );
           }
         }
         return assocPath(
           ['active', 'run'],
           true,
-          _state
+          state
         );
       case SquareActions.RUN_QUERY_COMPLETED:
         if (!state.active.items[action.payload['index']]) return state;

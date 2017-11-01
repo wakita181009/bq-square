@@ -36,7 +36,7 @@ export class ModelEpics {
         .filter(({meta}) => meta['modelName'] === modelName)
         .switchMap(({payload}) => this.modelService.list(modelServiceOptions[modelName], payload&&payload['q'])
           .map(data => this.modelActions.listModelCompleted(modelName, data.list))
-          .catch(error => Observable.of(this.modelActions.modelError(modelName, error)))
+          .catch(error => Observable.of(this.modelActions.newError(modelName, error)))
         )
   }
 
@@ -52,7 +52,7 @@ export class ModelEpics {
         .switchMap(({payload}) => Observable.interval(1000).startWith(0).timeInterval().take(5)
           .mergeMap(() => this.modelService.list(modelServiceOptions[modelName], payload&&payload['q'])
             .map(data => this.modelActions.listModelCompleted(modelName, data.list))
-            .catch(error => Observable.of(this.modelActions.modelError(modelName, error)))
+            .catch(error => Observable.of(this.modelActions.newError(modelName, error)))
           ).finally(() => store.dispatch(this.modelActions.endReloading(modelName))))
   }
 
@@ -63,7 +63,7 @@ export class ModelEpics {
         .filter(({meta}) => meta['modelName'] === modelName)
         .switchMap(({payload}) => this.modelService.read(modelServiceOptions[modelName], payload)
           .map(data => this.modelActions.readModelCompleted(modelName, data))
-          .catch(error => Observable.of(this.modelActions.modelError(modelName, error)))
+          .catch(error => Observable.of(this.modelActions.newError(modelName, error)))
         )
   }
 
@@ -74,7 +74,7 @@ export class ModelEpics {
         .filter(({meta}) => meta['modelName'] === modelName)
         .switchMap(() => this.modelService.create(modelServiceOptions[modelName], store.getState().admin[modelName]['form'])
           .map(data => this.modelActions.createModelCompleted(modelName, data))
-          .catch(error => Observable.of(this.modelActions.modelError(modelName, error)))
+          .catch(error => Observable.of(this.modelActions.newError(modelName, error)))
         )
   }
 
@@ -85,7 +85,7 @@ export class ModelEpics {
         .filter(({meta}) => meta['modelName'] === modelName)
         .switchMap(({payload}) => this.modelService.update(modelServiceOptions[modelName], payload, store.getState().admin[modelName]['form'])
           .map(data => this.modelActions.updateModelCompleted(modelName, data))
-          .catch(error => Observable.of(this.modelActions.modelError(modelName, error)))
+          .catch(error => Observable.of(this.modelActions.newError(modelName, error)))
         )
   }
 
@@ -96,7 +96,7 @@ export class ModelEpics {
         .filter(({meta}) => meta['modelName'] === modelName)
         .switchMap(({payload}) => this.modelService.del(modelServiceOptions[modelName], payload)
           .map(data => this.modelActions.deleteModelCompleted(modelName, data))
-          .catch(error => Observable.of(this.modelActions.modelError(modelName, error)))
+          .catch(error => Observable.of(this.modelActions.newError(modelName, error)))
         )
   }
 

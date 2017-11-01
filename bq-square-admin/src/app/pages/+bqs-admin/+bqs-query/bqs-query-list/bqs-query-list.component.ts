@@ -20,7 +20,6 @@ export class BqsQueryListComponent implements OnInit {
   @ViewChild('filter') filter: ElementRef;
 
   query$: BqsQueryListDataSource | null;
-  @select(createModelLoadingSelector('query')) loading: Observable<boolean>;
 
   constructor(public modelActions: ModelActions,
               public store: NgRedux<IAppState>) {

@@ -52,6 +52,7 @@ export interface IModelStore {
   loading: boolean;
   reloading: boolean;
   form: IModel,
+  message: any,
   error: any
 }
 
@@ -63,6 +64,7 @@ export const modelInitialState: {[key: string]: IModelStore} = {
     form: {
       type: "bigquery"
     },
+    message: null,
     error: null
   },
   query: {
@@ -76,6 +78,7 @@ export const modelInitialState: {[key: string]: IModelStore} = {
       query_str: "",
       cache: true
     },
+    message: null,
     error: null
   },
   report: {
@@ -86,6 +89,7 @@ export const modelInitialState: {[key: string]: IModelStore} = {
       name: "",
       format: ""
     },
+    message: null,
     error: null
   },
   user: {
@@ -97,6 +101,7 @@ export const modelInitialState: {[key: string]: IModelStore} = {
       email: "",
       role: "viewer"
     },
+    message: null,
     error: null
   },
   key_value: {
@@ -106,6 +111,7 @@ export const modelInitialState: {[key: string]: IModelStore} = {
     form: {
       values: []
     },
+    message: null,
     error: null
   },
   global_key: {
@@ -113,6 +119,7 @@ export const modelInitialState: {[key: string]: IModelStore} = {
     loading: false,
     reloading: false,
     form: {},
+    message: null,
     error: null
   },
   global_value: {
@@ -120,6 +127,7 @@ export const modelInitialState: {[key: string]: IModelStore} = {
     loading: false,
     reloading: false,
     form: {},
+    message: null,
     error: null
   }
 };

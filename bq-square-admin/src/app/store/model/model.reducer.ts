@@ -14,6 +14,8 @@ export function createModelReducer(modelName: string): Reducer<IModelStore> {
       return state;
     }
 
+    let modelNameStr = action.meta['modelName'].charAt(0).toUpperCase() + action.meta['modelName'].slice(1);
+
     switch (action.type) {
       case ModelActions.LIST_MODEL:
       case ModelActions.READ_MODEL:
@@ -41,13 +43,32 @@ export function createModelReducer(modelName: string): Reducer<IModelStore> {
           }
         );
       case ModelActions.CREATE_MODEL_COMPLETED:
+        return tassign(
+          state,
+          {
+            form: initialState.form,
+            loading: false,
+            reloading: true,
+            message: `${modelNameStr} created. -- ID: ${action.payload['id']}`
+          }
+        );
       case ModelActions.DELETE_MODEL_COMPLETED:
         return tassign(
           state,
           {
             form: initialState.form,
             loading: false,
-            reloading: true
+            reloading: true,
+            message: `${modelNameStr} deleted.`
+          }
+        );
+      case ModelActions.UPDATE_MODEL_COMPLETED:
+        return tassign(
+          state,
+          {
+            loading: false,
+            reloading: true,
+            message: `${modelNameStr} updated. -- ID: ${action.payload['id']}`
           }
         );
       case ModelActions.NEW_FORM:
@@ -58,14 +79,6 @@ export function createModelReducer(modelName: string): Reducer<IModelStore> {
             loading: false
           }
         );
-      case ModelActions.UPDATE_MODEL_COMPLETED:
-        return tassign(
-          state,
-          {
-            loading: false,
-            reloading: true
-          }
-        );
       case ModelActions.END_RELOADING:
         return tassign(
           state,
@@ -73,7 +86,23 @@ export function createModelReducer(modelName: string): Reducer<IModelStore> {
             reloading: false
           }
         );
-      case ModelActions.MODEL_ERROR:
+      case ModelActions.NEW_MESSAGE:
+        return tassign(
+          state,
+          {
+            message: action.payload,
+            loading: false
+          }
+        );
+      case ModelActions.CLEAR_MESSAGE:
+        return tassign(
+          state,
+          {
+            message: null,
+            loading: false
+          }
+        );
+      case ModelActions.NEW_ERROR:
         return tassign(
           state,
           {

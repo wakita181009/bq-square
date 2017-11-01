@@ -6,10 +6,6 @@
   <h1>{{editMode}} a Query</h1>
 </div>
 
-<div *ngIf="loading | async">
-  <mat-spinner [diameter]="30"></mat-spinner>
-</div>
-
 <form [connect]="['admin', 'query', 'form']" class="model-edit">
   <div class="mat-elevation-z8">
     <div *ngIf="editMode == 'Create'">

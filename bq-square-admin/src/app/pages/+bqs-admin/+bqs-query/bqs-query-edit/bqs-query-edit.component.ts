@@ -20,8 +20,6 @@ export class BqsQueryEditComponent implements OnDestroy {
   editMode: string;
   urlsafe: string;
 
-  @select(['admin', 'query', 'loading']) loading: Observable<boolean>;
-
   @select(dataSourceIDSelector) data_source_ids$: Observable<string[]>;
 
   constructor(private modelActions: ModelActions,
