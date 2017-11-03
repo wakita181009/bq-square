@@ -1,9 +1,10 @@
 import {NgModule, ModuleWithProviders} from '@angular/core';
 import {HttpModule} from '@angular/http';
 import {CommonModule} from '@angular/common';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {
   MatInputModule,
+  MatAutocompleteModule,
   MatSlideToggleModule,
   MatButtonModule,
   MatChipsModule,
@@ -36,6 +37,7 @@ import {MultiInput} from './components/multi-input';
 
 const mat_MODULES = [
   MatInputModule,
+  MatAutocompleteModule,
   MatSlideToggleModule,
   MatButtonModule,
   MatChipsModule,
@@ -62,6 +64,7 @@ const mat_MODULES = [
     CommonModule,
     HttpModule,
     FormsModule,
+    ReactiveFormsModule,
     ...mat_MODULES,
     RouterModule,
     NgReduxFormModule,
@@ -72,6 +75,7 @@ const mat_MODULES = [
     MultiInput,
     HttpModule,
     FormsModule,
+    ReactiveFormsModule,
     ...mat_MODULES,
     NgReduxFormModule,
   ]
