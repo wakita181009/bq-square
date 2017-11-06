@@ -40,7 +40,7 @@ class BaseExpandoModel(ndb.Expando):
         return _model
 
     @classmethod
-    def list(cls, query=None, orders=None):
+    def list(cls, query=None, orders=None, limit=None, cursor=None, offset=None):
         try:
             if query:
                 q = cls.gql("WHERE deleted=FALSE AND " + query)
@@ -48,20 +48,38 @@ class BaseExpandoModel(ndb.Expando):
                 q = cls.query(cls.deleted == False)
 
             if orders:
+                orders.append(cls._key)
                 q = q.order(*orders)
             else:
-                q = q.order(cls.created)
+                q = q.order(-cls.created, cls._key)
 
-            # return a ndb query object
-            return q
+            if limit:
+                result, next_cursor, more = q.fetch_page(limit, start_cursor=cursor, offset=offset)
+            else:
+                result = q.fetch()
+                next_cursor = None
+                more = False
+
+            ct = q.count()
+
+            return result, next_cursor, more, ct
         except Exception as e:
             raise e
 
     @classmethod
+    def list_distinct_property(cls, p):
+        prop = cls._properties[p]
+        q = cls.query(projection=[prop], distinct=True)
+        models = q.fetch()
+        count = q.count()
+        return [m.to_dict().get(p)[0] if isinstance(m.to_dict().get(p), list) else m.to_dict().get(p)
+                for m in models], count
+
+    @classmethod
     def list_deleted(cls):
         try:
-            # return a ndb query object
-            return cls.query(cls.deleted == True)
+            q = cls.query(cls.deleted == True)
+            return q.fetch(), q.count()
         except Exception as e:
             raise e
 

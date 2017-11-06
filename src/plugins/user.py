@@ -90,28 +90,36 @@ def get_user_rest_class(version, **kwargs):
         @admin_user_required
         def get(self, url_safe=None):
             if not url_safe:
-                _deleted = self.request.GET.get('deleted', False)
-                query = self._filter_query()
-                orders = self._order_query()
-                try:
-                    if not _deleted:
-                        future = self.model.list(query, orders)
-                    else:
-                        future = self.model.list_deleted()
-                except Exception as e:
-                    return self.handle_error(e)
-
-                if future:
-                    count = future.count()
-                    # finish query
-                    future = future.fetch()
+                distinct_prop = self.request.GET.get('distinct_prop')
+                if distinct_prop:
+                    try:
+                        result, count = self.model.list_distinct_property(distinct_prop)
+                    except Exception as e:
+                        return self.handle_error(e)
 
                     return self.handle_json({"count": count,
-                                             "list": self.model.models_to_dict_list(future)
-                                             })
-                else:
-                    return self.handle_json({"count": 0,
-                                             "list": []})
+                                             "list": result})
+
+                deleted = self.request.GET.get('deleted', False)
+                query = self._filter_query()
+                orders = self._order_query()
+                limit, cursor, offset = self._fetch_query()
+
+                try:
+                    if not deleted:
+                        result, next_cursor, more, ct = self.model.list(query, orders, limit, cursor, offset)
+                        return self.handle_json({"count": ct,
+                                                 "cursor": next_cursor.urlsafe(),
+                                                 "more": more,
+                                                 "list": self.model.models_to_dict_list(result)
+                                                 })
+                    else:
+                        result, ct = self.model.list_deleted()
+                        return self.handle_json({"count": ct,
+                                                 "list": self.model.models_to_dict_list(result)
+                                                 })
+                except Exception as e:
+                    return self.handle_error(e)
 
             try:
                 future = self.model.read(url_safe)

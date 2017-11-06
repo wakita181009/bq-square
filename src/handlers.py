@@ -42,10 +42,10 @@ class GetReportListHandler(BaseHandler):
     def get(self):
         role = self.user.role
         if role in ["owner", "admin", "view_admin"]:
-            q = ReportModel.list(orders=[ReportModel.order])
+            result, next_cursor, more, ct = ReportModel.list(orders=[ReportModel.order])
             return self.handle_json({
-                "count": q.count(),
-                "list": ReportModel.models_to_dict_list(q.fetch())
+                "count": ct,
+                "list": ReportModel.models_to_dict_list(result)
             })
 
         _report_model_list = [ReportModel.get_by_id(id) for id in self.user.report_id]

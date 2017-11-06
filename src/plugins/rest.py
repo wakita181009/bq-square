@@ -4,6 +4,7 @@ import os
 import json
 import webapp2
 from google.appengine.ext import ndb
+from google.appengine.ext.ndb import Cursor
 from webapp2_extras.routes import NamePrefixRoute
 
 from .base_handler import BaseHandler, user_required, import_class
@@ -22,6 +23,7 @@ class RESTVersionError(Exception):
 
 class BaseRESTHandler(BaseHandler):
     __version__ = ""
+    DEFAULT_MAX_QUERY_RESULTS = 1000
 
     # toDo Complete query
 
@@ -64,6 +66,44 @@ class BaseRESTHandler(BaseHandler):
 
         return orders
 
+    def _fetch_query(self):
+        if not self.request.GET.get('limit'):
+            # No limit given - use default limit
+            limit = BaseRESTHandler.DEFAULT_MAX_QUERY_RESULTS
+        else:
+            try:
+                limit = int(self.request.GET.get('limit'))
+                if limit <= 0:
+                    raise ValueError('Limit cannot be zero or less')
+            except ValueError, exc:
+                # Invalid limit value
+                return self.handle_error_string('Invalid "limit" parameter - %s' % self.request.GET.get('limit'))
+
+        if not self.request.GET.get('cursor'):
+            # Fetch results from scratch
+            cursor = None
+        else:
+            # Continue a previous query
+            try:
+                cursor = Cursor(urlsafe=self.request.GET.get('cursor'))
+            except Exception as e:
+                return self.handle_error_string('Invalid "cursor" argument - %s' % self.request.GET.get('cursor'))
+
+        if not self.request.GET.get('offset'):
+            offset = None
+        else:
+            try:
+                offset = int(self.request.GET.get('offset'))
+                if offset == 0:
+                    offset = None
+                elif offset < 0:
+                    raise ValueError('Offset cannot be zero or less')
+            except ValueError, exc:
+                # Invalid offset value
+                return self.handle_error_string('Invalid "offset" parameter - %s' % self.request.GET.get('offset'))
+
+        return limit, cursor, offset
+
 
 def get_rest_class(ndb_model, version, **kwargs):
     class RESTHandlerStore(BaseRESTHandler):
@@ -77,28 +117,36 @@ def get_rest_class(ndb_model, version, **kwargs):
         @user_required
         def get(self, url_safe=None):
             if not url_safe:
-                _deleted = self.request.GET.get('deleted', False)
+                distinct_prop = self.request.GET.get('distinct_prop')
+                if distinct_prop:
+                    try:
+                        result, ct = self.model.list_distinct_property(distinct_prop)
+                    except Exception as e:
+                        return self.handle_error(e)
+
+                    return self.handle_json({"count": ct,
+                                             "list": result})
+
+                deleted = self.request.GET.get('deleted', False)
                 query = self._filter_query()
                 orders = self._order_query()
+                limit, cursor, offset = self._fetch_query()
+
                 try:
-                    if not _deleted:
-                        future = self.model.list(query, orders)
+                    if not deleted:
+                        result, next_cursor, more, ct = self.model.list(query, orders, limit, cursor, offset)
+                        return self.handle_json({"count": ct,
+                                                 "cursor": next_cursor.urlsafe(),
+                                                 "more": more,
+                                                 "list": self.model.models_to_dict_list(result)
+                                                 })
                     else:
-                        future = self.model.list_deleted()
+                        result, ct = self.model.list_deleted()
+                        return self.handle_json({"count": ct,
+                                                 "list": self.model.models_to_dict_list(result)
+                                                 })
                 except Exception as e:
                     return self.handle_error(e)
-
-                if future:
-                    count = future.count()
-                    # finish query
-                    future = future.fetch()
-
-                    return self.handle_json({"count": count,
-                                             "list": self.model.models_to_dict_list(future)
-                                             })
-                else:
-                    return self.handle_json({"count": 0,
-                                             "list": []})
 
             try:
                 future = self.model.read(url_safe)
