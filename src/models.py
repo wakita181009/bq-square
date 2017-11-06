@@ -23,6 +23,7 @@ class QueryModel(BaseExpandoModel):
     data_source_id = ndb.StringProperty(required=True)
     query_str = ndb.TextProperty(required=True)
     cache = ndb.BooleanProperty(default=True, required=True)
+    tag = ndb.StringProperty(repeated=True)
 
 
 class ReportModel(BaseExpandoModel):
