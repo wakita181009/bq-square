@@ -66,7 +66,7 @@ class GlobalValueModel(BaseExpandoModel):
     @classmethod
     def model_to_dict(cls, model):
         model_dict = super(GlobalValueModel, cls).model_to_dict(model)
-        model_dict["q"] = 'ANCESTOR%20is%20Key%28%27GlobalKeyModel%27%2C%20%27{0}%27%29'.format(model.key.parent().id())
+        model_dict["_reload_query"] = "ANCESTOR IS KEY('GlobalKeyModel', '{0}')".format(model.key.parent().id())
 
         return model_dict
 
@@ -80,6 +80,6 @@ class GlobalValueModel(BaseExpandoModel):
 
         try:
             _model_key.delete()
-            return {'q': 'ANCESTOR%20is%20Key%28%27GlobalKeyModel%27%2C%20%27{0}%27%29'.format(_parent_id)}
+            return {'_reload_query': "ANCESTOR IS KEY('GlobalKeyModel', '{0}')".format(_parent_id)}
         except Exception as e:
             raise e

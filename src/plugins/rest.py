@@ -136,7 +136,7 @@ def get_rest_class(ndb_model, version, **kwargs):
                     if not deleted:
                         result, next_cursor, more, ct = self.model.list(query, orders, limit, cursor, offset)
                         return self.handle_json({"count": ct,
-                                                 "cursor": next_cursor.urlsafe(),
+                                                 "cursor": next_cursor.urlsafe() if next_cursor else None,
                                                  "more": more,
                                                  "list": self.model.models_to_dict_list(result)
                                                  })
