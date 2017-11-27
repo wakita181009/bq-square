@@ -70,8 +70,8 @@ export class SquareEpics {
       action$
         .filter(
           ({type}) => type == SquareActions.LIST_SQUARE
-        ).switchMap((action) =>
-        this.squareService.getReportList()
+        ).switchMap(({payload}) =>
+        this.squareService.getReportList(payload)
           .map(data => this.squareActions.listSquareCompleted(data))
           .catch(error => Observable.of(this.squareActions.squareError(error)))
           .takeUntil(action$.filter(({type}) => type === SquareActions.SQUARE_CHANGED))

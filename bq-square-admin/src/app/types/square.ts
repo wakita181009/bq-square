@@ -22,6 +22,11 @@ export interface ISquare {
   run?: boolean,
 }
 
+export interface ISquareList {
+  count: number,
+  list: ISquare[]
+}
+
 export interface IGlobalValue {
   id: string,
   display_name: string
@@ -36,14 +41,11 @@ export interface IGlobal {
 
 export interface ISquareStore {
   active: ISquare,
-  items: ISquare[],
+  items: ISquareList,
   global: {[key: string]: IGlobal},
   ready: boolean,
   loading: boolean,
   error: any
 }
 
-export interface ISquareList {
-  count: number,
-  list: ISquare[]
-}
+

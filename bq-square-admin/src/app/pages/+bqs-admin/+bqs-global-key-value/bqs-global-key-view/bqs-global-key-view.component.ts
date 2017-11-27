@@ -2,7 +2,7 @@ import {Component, OnDestroy} from '@angular/core';
 import {select, NgRedux} from '@angular-redux/store';
 import {Observable} from 'rxjs';
 
-import {Router, ActivatedRoute, Params} from '@angular/router';
+import {ActivatedRoute, Params} from '@angular/router';
 
 import {IAppState, IModel} from 'app/types';
 import {ModelActions} from 'app/store/model/model.actions';
@@ -16,7 +16,7 @@ import {createModelLoadingSelector, userEmailsSelector} from 'app/selectors/mode
 export class BqsGlobalKeyViewComponent implements OnDestroy {
   @select(['admin', 'global_key', 'form']) global_key$: Observable<any>;
 
-  @select(['admin', 'global_value', 'items']) global_value_items: Observable<IModel[]>;
+  @select(['admin', 'global_value', 'items', 'list']) global_value_items: Observable<IModel[]>;
   @select(createModelLoadingSelector('global_value')) global_value_loading: Observable<boolean>;
 
   @select(userEmailsSelector) user_emails: Observable<string[]>;
@@ -28,8 +28,7 @@ export class BqsGlobalKeyViewComponent implements OnDestroy {
 
   constructor(private modelActions: ModelActions,
               private store: NgRedux<IAppState>,
-              private route: ActivatedRoute,
-              private router: Router) {
+              private route: ActivatedRoute) {
     this.route.params
       .map((params: Params) => params['urlsafe'])
       .subscribe((urlsafe) => {
@@ -45,7 +44,7 @@ export class BqsGlobalKeyViewComponent implements OnDestroy {
         if (id) {
           this.store.dispatch(
             this.modelActions.listModel('global_value',
-              {q: `ANCESTOR%20is%20Key%28%27GlobalKeyModel%27%2C%20%27${id}%27%29`}
+              {q: `ANCESTOR IS KEY('GlobalKeyModel', '${id}')`}
             ));
           this._global_id = id;
         }

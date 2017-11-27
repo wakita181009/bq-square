@@ -1,5 +1,5 @@
 import {ModelActions} from './model.actions';
-import {TPayloadAction, IModelStore, modelInitialState} from 'app/types';
+import {TPayloadAction, IModelStore, modelInitialState, modelListInitialState} from 'app/types';
 import {Reducer} from 'redux';
 
 import {tassign} from 'tassign';
@@ -9,7 +9,7 @@ import {assocPath, pathOr} from 'ramda';
 export function createModelReducer(modelName: string): Reducer<IModelStore> {
   let initialState = modelInitialState[modelName];
 
-  return (state=initialState, action: TPayloadAction) => {
+  return (state = initialState, action: TPayloadAction) => {
     if (!action.meta || action.meta['modelName'] !== modelName) {
       return state;
     }
@@ -30,9 +30,21 @@ export function createModelReducer(modelName: string): Reducer<IModelStore> {
         return tassign(
           state,
           {
-            items: action.payload,
+            items: tassign(
+              state.items,
+              action.payload
+            ),
             loading: false
           }
+        );
+      case ModelActions.GET_FILTER_COMPLETED:
+        return assocPath(
+          ['items', 'filter'],
+          tassign(
+            state.items.filter,
+            action.payload
+          ),
+          state
         );
       case ModelActions.READ_MODEL_COMPLETED:
         return tassign(
@@ -130,7 +142,7 @@ export function createModelReducer(modelName: string): Reducer<IModelStore> {
         return tassign(
           state,
           {
-            items: []
+            items: modelListInitialState
           }
         );
 

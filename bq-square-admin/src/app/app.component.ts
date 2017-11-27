@@ -4,7 +4,6 @@ import {Observable} from 'rxjs/Observable';
 
 import {AuthService} from './auth/auth.service';
 
-
 @Component({
   selector: 'bqs-root',
   templateUrl: './app.component.html',

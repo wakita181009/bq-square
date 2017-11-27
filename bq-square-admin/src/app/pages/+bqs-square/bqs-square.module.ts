@@ -15,6 +15,7 @@ import {ChartJsComponent} from './chart-js/chart-js.component';
 import {InputDateComponent} from './input-date/input-date.component';
 import {InputValueComponent} from './input-value/input-value.component';
 import {InputSelectComponent} from './input-select/input-select.component';
+import {BqsSquareListComponent} from './bqs-square-list/bqs-square-list.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import {InputSelectComponent} from './input-select/input-select.component';
     ChartJsComponent,
     InputDateComponent,
     InputValueComponent,
-    InputSelectComponent
+    InputSelectComponent,
+    BqsSquareListComponent
   ],
   entryComponents: [
     PlotlyJsComponent,

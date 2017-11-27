@@ -24,7 +24,7 @@ import {
 } from '@angular/material';
 import {CdkTableModule} from '@angular/cdk/table';
 import {TagInputModule} from 'ngx-chips';
-import {ExpansionPanelsModule } from 'ng2-expansion-panels';
+import {ExpansionPanelsModule} from 'ng2-expansion-panels';
 import {RouterModule} from '@angular/router';
 
 import {NgReduxFormModule} from '@angular-redux/form';
@@ -35,7 +35,7 @@ import {SERVICES} from './services';
 import {MultiInput} from './components/multi-input';
 
 
-const mat_MODULES = [
+const MAT_MODULES = [
   MatInputModule,
   MatAutocompleteModule,
   MatSlideToggleModule,
@@ -65,7 +65,7 @@ const mat_MODULES = [
     HttpModule,
     FormsModule,
     ReactiveFormsModule,
-    ...mat_MODULES,
+    ...MAT_MODULES,
     RouterModule,
     NgReduxFormModule,
   ],
@@ -74,9 +74,10 @@ const mat_MODULES = [
     NavBar,
     MultiInput,
     HttpModule,
+    // HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    ...mat_MODULES,
+    ...MAT_MODULES,
     NgReduxFormModule,
   ]
 })

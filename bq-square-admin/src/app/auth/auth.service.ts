@@ -4,8 +4,6 @@ import {Headers, RequestOptions} from '@angular/http';
 import {environment} from '../../environments/environment';
 
 import {Observable} from 'rxjs/Observable';
-
-import {tokenNotExpired} from 'angular2-jwt';
 import {KJUR, b64utoutf8} from 'jsrsasign';
 
 import {NgRedux} from '@angular-redux/store';
@@ -103,13 +101,18 @@ export class AuthService {
     return localStorage.getItem('bqs_token');
   }
 
+  private tokenNotExpired() {
+    const token = this._getTokenFromLocalStorage();
+    return true
+  }
+
   // Shortcut to get user object
   public authenticated() {
     let token = this.bqs_token;
     if (!token) return;
     if (token && this.bqs_token !== this._getTokenFromLocalStorage()) return;
 
-    let _authenticated = this._validJwtToken(token) && tokenNotExpired('bqs_token');
+    let _authenticated = this._validJwtToken(token) && this.tokenNotExpired();
     if (_authenticated) return this.user;
     return
   };
@@ -135,29 +138,5 @@ export class AuthService {
   }
 
 
-  private extractData(res: Response) {
-    let body = res.json();
-    return body || {};
-  }
-
-  private handleError(error: any) {
-    // In a real world app, we might use a remote logging infrastructure
-    // We'd also dig deeper into the error to get a better message
-    // let errMsg = (error.message) ? error.message :
-    //   error.status ? `${error.status} - ${error._body || error.statusText}` : error;
-    // console.error(errMsg); // log to console instead
-    let errMsg;
-    if (error.message) {
-      errMsg = error.message;
-    } else if (error.status) {
-      errMsg = `${error.status} - ${error._body || error.statusText}`;
-    } else {
-      errMsg = error
-    }
-
-    // this.store.dispatch(this.authActions.authError(errMsg));this.logout();
-
-    return Observable.throw(errMsg);
-  }
 
 }

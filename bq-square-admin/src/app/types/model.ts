@@ -10,7 +10,7 @@ export const modelServiceOptions: {[key: string]: IModelServiceOptions} = {
   },
   query: {
     name: 'query',
-    updatable_properties: ['name', 'data_source_id', 'query_str', 'cache', 'destination_table']
+    updatable_properties: ['name', 'data_source_id', 'query_str', 'cache', 'tag']
   },
   report: {
     name: 'report',
@@ -44,11 +44,14 @@ export interface IModel {
 
 export interface IModelList {
   list: IModel[],
-  count: number
+  count: number,
+  cursor: string,
+  more: boolean,
+  filter: {[key: string]: string[]}
 }
 
 export interface IModelStore {
-  items: IModel[];
+  items: IModelList;
   loading: boolean;
   reloading: boolean;
   form: IModel,
@@ -56,9 +59,17 @@ export interface IModelStore {
   error: any
 }
 
+export const modelListInitialState: IModelList= {
+  list:[],
+  count:0,
+  cursor: null,
+  more: false,
+  filter: {}
+};
+
 export const modelInitialState: {[key: string]: IModelStore} = {
   data_source: {
-    items: [],
+    items: modelListInitialState,
     loading: false,
     reloading: false,
     form: {
@@ -68,7 +79,7 @@ export const modelInitialState: {[key: string]: IModelStore} = {
     error: null
   },
   query: {
-    items: [],
+    items: modelListInitialState,
     loading: false,
     reloading: false,
     form: {
@@ -76,13 +87,14 @@ export const modelInitialState: {[key: string]: IModelStore} = {
       name: "",
       data_source_id: "bigquery",
       query_str: "",
-      cache: true
+      cache: true,
+      tag: []
     },
     message: null,
     error: null
   },
   report: {
-    items: [],
+    items: modelListInitialState,
     loading: false,
     reloading: false,
     form: {
@@ -93,7 +105,7 @@ export const modelInitialState: {[key: string]: IModelStore} = {
     error: null
   },
   user: {
-    items: [],
+    items: modelListInitialState,
     loading: false,
     reloading: false,
     form: {
@@ -105,7 +117,7 @@ export const modelInitialState: {[key: string]: IModelStore} = {
     error: null
   },
   key_value: {
-    items: [],
+    items: modelListInitialState,
     loading: false,
     reloading: false,
     form: {
@@ -115,7 +127,7 @@ export const modelInitialState: {[key: string]: IModelStore} = {
     error: null
   },
   global_key: {
-    items: [],
+    items: modelListInitialState,
     loading: false,
     reloading: false,
     form: {},
@@ -123,7 +135,7 @@ export const modelInitialState: {[key: string]: IModelStore} = {
     error: null
   },
   global_value: {
-    items: [],
+    items: modelListInitialState,
     loading: false,
     reloading: false,
     form: {},

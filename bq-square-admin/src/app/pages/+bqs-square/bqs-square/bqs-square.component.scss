@@ -1,5 +1,12 @@
-:host {
-  margin: 0 15px;
+//:host {
+//  margin: 0 15px;
+//}
+
+.bqs-square-sidenav-button {
+  min-width: 5%;
+  background: #00bcd4;
+  color: white;
+  border-right: solid white 1px;
 }
 
 .bqs-square {
@@ -29,20 +36,20 @@
   }
 
   .half {
-    -ms-flex: 0 0 50%;
-    flex: 0 0 50%;
+    -ms-flex: 0 1 50%;
+    flex: 0 1 50%;
     max-width: 50%;
 
     @media screen and (max-width: 1100px) {
-      -ms-flex: 0 0 100%;
-      flex: 0 0 100%;
+      -ms-flex: 0 1 100%;
+      flex: 0 1 100%;
       max-width: 100%;
     }
   }
 
   .full {
-    -ms-flex: 0 0 100%;
-    flex: 0 0 100%;
+    -ms-flex: 0 1 100%;
+    flex: 0 1 100%;
     max-width: 100%;
   }
 

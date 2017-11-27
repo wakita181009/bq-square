@@ -2,14 +2,12 @@ import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {AuthGuard} from './auth/auth.guard';
 
-import {BqsSquareSidenavComponent} from './pages/bqs-square-sidenav/bqs-square-sidenav.component';
 import {BqsLoginComponent} from './pages/bqs-login/bqs-login.component';
 
 
 const routes: Routes = [
   {
     path: '',
-    component: BqsSquareSidenavComponent,
     canActivate: [AuthGuard],
     children: [
       {
@@ -20,7 +18,6 @@ const routes: Routes = [
   },
   {
     path: 'square',
-    component: BqsSquareSidenavComponent,
     canActivate: [AuthGuard],
     children: [
       {

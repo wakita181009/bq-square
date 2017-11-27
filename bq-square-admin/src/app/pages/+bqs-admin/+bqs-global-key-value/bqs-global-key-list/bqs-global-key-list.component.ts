@@ -3,30 +3,44 @@ import {select, NgRedux} from '@angular-redux/store';
 import {Observable} from 'rxjs/Observable';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {DataSource} from '@angular/cdk/table';
+import {MatSort, MatPaginator} from '@angular/material';
 
 import {IAppState, IModel} from 'app/types';
 import {ModelActions} from 'app/store/model/model.actions';
-import {createModelLoadingSelector} from 'app/selectors/model';
 
 
 @Component({
-  selector: 'bqs-bqs-global-key-list',
+  selector: 'bqs-global-key-list',
   templateUrl: './bqs-global-key-list.component.html',
   styleUrls: ['./bqs-global-key-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BqsGlobalKeyListComponent implements OnInit {
+  @select(['admin', 'global_key', 'reloading']) reloading$: Observable<boolean>;
 
   displayedColumns = ['id', 'display_name', 'type', 'created', 'updated', 'control'];
+  global_key$: BqsGlobalKeyListDataSource | null;
+  @select(['admin', 'global_key', 'items', 'count']) table_length$: Observable<number>;
 
   @ViewChild('filter') filter: ElementRef;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  global_key$: BqsGlobalKeyListDataSource | null;
-  @select(createModelLoadingSelector('global_key')) loading: Observable<boolean>;
+  _typeFilterChange = new BehaviorSubject(null);
+
+  get typeFilter(): string {
+    return this._typeFilterChange.value
+  }
+
+  set typeFilter(filter: string) {
+    this._typeFilterChange.next(filter)
+  }
 
   constructor(public modelActions: ModelActions,
               public store: NgRedux<IAppState>) {
-    this.store.dispatch(this.modelActions.listModel('global_key'));
+    this.store.dispatch(this.modelActions.listModel('global_key', {
+      limit: '10'
+    }));
   }
 
   ngOnInit() {
@@ -42,10 +56,38 @@ export class BqsGlobalKeyListComponent implements OnInit {
         this.global_key$.filter = this.filter.nativeElement.value;
       });
 
+    let filterChanges = [
+      this.paginator.page,
+      this.sort.sortChange,
+      this._typeFilterChange
+    ];
+
+    Observable.merge(...filterChanges)
+      .subscribe((event) => {
+        if (!event) return;
+        let options = {};
+
+        let _q = [];
+        if (this.typeFilter && this.typeFilter !== 'clear') {
+          this.paginator.pageIndex = 0;
+          _q.push(`type = '${this.typeFilter}'`);
+        }
+        options['q'] = _q.join(' AND ');
+
+        if (this.sort.active || this.sort.direction !== '') {
+          options['o'] = `${this.sort.direction == 'asc' ? '' : '-'}${this.sort.active}`
+        }
+
+        options['offset'] = this.paginator.pageIndex * this.paginator.pageSize;
+        options['limit'] = this.paginator.pageSize;
+        this.store.dispatch(this.modelActions.listModel('global_key', options))
+      });
+
   }
 
   del(urlsafe: string) {
     this.store.dispatch(this.modelActions.deleteModel('global_key', urlsafe));
+    this.paginator.pageIndex = 0;
   }
 
 }
@@ -62,7 +104,7 @@ class BqsGlobalKeyListDataSource extends DataSource<IModel[]> {
     this._filterChange.next(filter);
   }
 
-  @select(['admin', 'global_key', 'items']) global_key$: Observable<IModel[]>;
+  @select(['admin', 'global_key', 'items', 'list']) global_key$: Observable<IModel[]>;
 
   constructor() {
     super();

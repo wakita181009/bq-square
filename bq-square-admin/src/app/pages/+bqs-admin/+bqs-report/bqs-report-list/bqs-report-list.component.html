@@ -2,21 +2,30 @@
   <mat-icon>add</mat-icon>
 </button>
 
-<mat-progress-bar *ngIf="loading | async" mode="indeterminate"></mat-progress-bar>
-
 <div class="bqs-primary-header">
   <h1>Reports</h1>
 </div>
 
-<div class="model-list-table mat-elevation-z8">
+<div class="model-list">
 
-    <div class="table-header">
-      <mat-form-field floatPlaceholder="never">
-        <input matInput #filter placeholder="Filter">
-      </mat-form-field>
-    </div>
+  <div class="model-list-filter mat-elevation-z8">
 
-    <mat-table #table [dataSource]="report$">
+    <mat-form-field floatPlaceholder="never">
+      <input matInput #filter placeholder="Filter">
+    </mat-form-field>
+
+    <tag-input placeholder="Tag" secondaryPlaceholder="Tag"
+               [modelAsStrings]="true" onlyFromAutocomplete="true" [theme]="'foundation-theme'"
+               name="tag" [(ngModel)]="tagFilter">
+      <tag-input-dropdown [showDropdownIfEmpty]="true"
+                          [autocompleteItems]="tagFilterOptions | async">
+      </tag-input-dropdown>
+    </tag-input>
+
+  </div>
+
+  <div class="model-list-table">
+    <mat-table #table [dataSource]="report$" matSort>
 
       <!--- Note that these columns can be defined in any order.
             The actual rendered columns are set as a property on the row definition" -->
@@ -29,31 +38,31 @@
 
       <!-- Name Column -->
       <ng-container cdkColumnDef="name">
-        <mat-header-cell *cdkHeaderCellDef> Name</mat-header-cell>
+        <mat-header-cell *cdkHeaderCellDef mat-sort-header> Name</mat-header-cell>
         <mat-cell *cdkCellDef="let row"> {{row.name}}</mat-cell>
       </ng-container>
 
-      <!-- Query Column -->
+      <!-- Tag Column -->
       <ng-container cdkColumnDef="tag">
-        <mat-header-cell *cdkHeaderCellDef> Tag</mat-header-cell>
+        <mat-header-cell *cdkHeaderCellDef mat-sort-header> Tag</mat-header-cell>
         <mat-cell *cdkCellDef="let row"> {{row.tag}}</mat-cell>
       </ng-container>
 
-      <!-- Cache Column -->
+      <!-- Order Column -->
       <ng-container cdkColumnDef="order">
-        <mat-header-cell *cdkHeaderCellDef> Order</mat-header-cell>
+        <mat-header-cell *cdkHeaderCellDef mat-sort-header> Order</mat-header-cell>
         <mat-cell *cdkCellDef="let row"> {{row.order}}</mat-cell>
       </ng-container>
 
       <!-- Created Column -->
       <ng-container cdkColumnDef="created">
-        <mat-header-cell *cdkHeaderCellDef> Created</mat-header-cell>
+        <mat-header-cell *cdkHeaderCellDef mat-sort-header> Created</mat-header-cell>
         <mat-cell *cdkCellDef="let row"> {{row.created}}</mat-cell>
       </ng-container>
 
       <!-- Updated Column -->
       <ng-container cdkColumnDef="updated">
-        <mat-header-cell *cdkHeaderCellDef> Updated</mat-header-cell>
+        <mat-header-cell *cdkHeaderCellDef mat-sort-header> Updated</mat-header-cell>
         <mat-cell *cdkCellDef="let row"> {{row.updated}}</mat-cell>
       </ng-container>
 
@@ -74,5 +83,16 @@
       <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *cdkRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
+
+    <div [hidden]="reloading$ | async">
+      <mat-paginator #paginator
+                     [length]="table_length$ | async"
+                     [pageIndex]="0"
+                     [pageSize]="10"
+                     [pageSizeOptions]="[5, 10, 25, 100]">
+      </mat-paginator>
+    </div>
+
+  </div>
 
 </div>

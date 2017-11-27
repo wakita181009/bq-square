@@ -3,7 +3,7 @@ import {select, NgRedux} from '@angular-redux/store';
 import {Observable} from 'rxjs/Observable';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {DataSource} from '@angular/cdk/collections';
-import {MatSort} from '@angular/material';
+import {MatSort, MatPaginator} from '@angular/material';
 
 import {IAppState, IModel} from 'app/types';
 import {ModelActions} from 'app/store/model/model.actions';
@@ -15,20 +15,55 @@ import {ModelActions} from 'app/store/model/model.actions';
   styleUrls: ['./bqs-query-list.component.scss'],
 })
 export class BqsQueryListComponent implements OnInit {
+  @select(['admin', 'report', 'reloading']) reloading$: Observable<boolean>;
+
   displayedColumns = ['id', 'name', 'data_source_id', 'cache', 'created', 'updated', 'control'];
+  query$: BqsQueryListDataSource | null;
+  @select(['admin', 'query', 'items', 'count']) table_length$: Observable<number>;
 
   @ViewChild('filter') filter: ElementRef;
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  query$: BqsQueryListDataSource | null;
+  @select(['admin', 'query', 'items', 'filter', 'data_source_id']) dataSourceIdFilterOptions: Observable<string[]>;
+  _dataSourceIdFilterChange = new BehaviorSubject(null);
+
+  get dataSourceIdFilter(): string[] {
+    return this._dataSourceIdFilterChange.value
+  }
+
+  set dataSourceIdFilter(filter: string[]) {
+    this._dataSourceIdFilterChange.next(filter);
+  }
+
+  @select(['admin', 'query', 'items', 'filter', 'tag']) tagFilterOptions: Observable<string[]>;
+  _tagFilterChange = new BehaviorSubject(null);
+
+  get tagFilter(): string[] {
+    return this._tagFilterChange.value
+  }
+
+  set tagFilter(filter: string[]) {
+    this._tagFilterChange.next(filter)
+  }
+
 
   constructor(public modelActions: ModelActions,
               public store: NgRedux<IAppState>) {
-    this.store.dispatch(this.modelActions.listModel('query'));
+    this.store.dispatch(this.modelActions.listModel('query', {
+      limit: '10'
+    }));
+
+    this.reloading$
+      .filter(v => !v)
+      .subscribe(() => {
+        this.store.dispatch(this.modelActions.getFilter('query', 'tag'));
+        this.store.dispatch(this.modelActions.getFilter('query', 'data_source_id'));
+      });
   }
 
   ngOnInit() {
-    this.query$ = new BqsQueryListDataSource(this.sort);
+    this.query$ = new BqsQueryListDataSource();
 
     Observable.fromEvent(this.filter.nativeElement, 'keyup')
       .debounceTime(150)
@@ -40,10 +75,42 @@ export class BqsQueryListComponent implements OnInit {
         this.query$.filter = this.filter.nativeElement.value;
       });
 
+    let filterChanges = [
+      this.paginator.page,
+      this.sort.sortChange,
+      this._dataSourceIdFilterChange,
+      this._tagFilterChange
+    ];
+
+    Observable.merge(...filterChanges)
+      .subscribe((event) => {
+        if (!event) return;
+        let options = {};
+
+        let _q = [];
+        if (this.dataSourceIdFilter && this.dataSourceIdFilter.length > 0) {
+          this.paginator.pageIndex = 0;
+          _q.push(`data_source_id in ('${this.dataSourceIdFilter.join("','")}')`);
+        }
+        if (this.tagFilter && this.tagFilter.length > 0) {
+          this.paginator.pageIndex = 0;
+          _q.push(`tag in ('${this.tagFilter.join("','")}')`);
+        }
+        options['q'] = _q.join(' AND ');
+
+        if (this.sort.active || this.sort.direction !== '') {
+          options['o'] = `${this.sort.direction == 'asc' ? '' : '-'}${this.sort.active}`
+        }
+
+        options['offset'] = this.paginator.pageIndex * this.paginator.pageSize;
+        options['limit'] = this.paginator.pageSize;
+        this.store.dispatch(this.modelActions.listModel('query', options))
+      });
   }
 
   del(urlsafe: string) {
     this.store.dispatch(this.modelActions.deleteModel('query', urlsafe));
+    this.paginator.pageIndex = 0;
   }
 
 }
@@ -59,9 +126,9 @@ class BqsQueryListDataSource extends DataSource<IModel[]> {
     this._filterChange.next(filter);
   }
 
-  @select(['admin', 'query', 'items']) query$: Observable<IModel[]>;
+  @select(['admin', 'query', 'items', 'list']) query$: Observable<IModel[]>;
 
-  constructor(private _sort: MatSort) {
+  constructor() {
     super();
   }
 
@@ -69,44 +136,17 @@ class BqsQueryListDataSource extends DataSource<IModel[]> {
     const displayDataChanges = [
       this.query$,
       this._filterChange,
-      this._sort.sortChange,
     ];
 
-    return Observable.merge(...displayDataChanges).mergeMap(
-      () => this.query$.map(query => {
-          if (!query) return;
-          let _data = query.filter(item => {
+    return Observable.merge(...displayDataChanges)
+      .mergeMap(() => this.query$
+        .filter(query => !!query)
+        .map(query => query.filter(item => {
             let searchStr = (item['id'] + item['name']).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) != -1;
-          });
-          return this.getSortedData(_data)
-        }
+          })
+        )
       )
-    )
-  }
-
-  getSortedData(_data: IModel[]): IModel[] {
-    const data = _data.slice();
-    if (!this._sort.active || this._sort.direction == '') { return data; }
-
-    return data.sort((a, b) => {
-      let propertyA: number|string|boolean = '';
-      let propertyB: number|string|boolean = '';
-
-      switch (this._sort.active) {
-        case 'id': [propertyA, propertyB] = [a.id, b.id]; break;
-        case 'name': [propertyA, propertyB] = [a.name, b.name]; break;
-        case 'data_source_id': [propertyA, propertyB] = [a.data_source_id, b.data_source_id]; break;
-        case 'cache': [propertyA, propertyB] = [a.cache, b.cache]; break;
-        case 'created': [propertyA, propertyB] = [a.created, b.created]; break;
-        case 'updated': [propertyA, propertyB] = [a.updated, b.updated]; break;
-      }
-
-      let valueA = isNaN(+propertyA) ? propertyA : +propertyA;
-      let valueB = isNaN(+propertyB) ? propertyB : +propertyB;
-
-      return (valueA < valueB ? -1 : 1) * (this._sort.direction == 'asc' ? 1 : -1);
-    });
   }
 
   disconnect() {

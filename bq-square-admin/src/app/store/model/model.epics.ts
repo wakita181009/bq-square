@@ -9,6 +9,8 @@ import {ModelActions} from './model.actions';
 import {IAppState, TPayloadAction, FSA, IModel, IModelMeta, modelServiceOptions} from 'app/types';
 
 
+const DEFAULT_RELOAD_OPTIONS = {limit: 10};
+
 @Injectable()
 export class ModelEpics {
   constructor(public modelService: ModelService,
@@ -17,6 +19,7 @@ export class ModelEpics {
 
   createEpics(modelName: string) {
     return combineEpics(
+      this.createGetFilterEpic(modelName),
       this.createListModelEpic(modelName),
       this.createReloadModelEpic(modelName),
       this.createReadModelEpic(modelName),
@@ -27,6 +30,23 @@ export class ModelEpics {
 
   }
 
+  createGetFilterEpic(modelName: string) {
+    return (action$: Observable<TPayloadAction>, store: NgRedux<IAppState>): Observable<FSA<{[key: string]: string[]}, IModelMeta>> =>
+      action$
+        .filter(
+          ({type}) => type == ModelActions.GET_FILTER
+        )
+        .filter(({meta}) => meta['modelName'] === modelName)
+        .mergeMap(({payload}) => this.modelService.list(modelServiceOptions[modelName], {distinct_prop: payload})
+          .map(data => {
+            let _payload = {};
+            _payload[payload] = data['list'];
+            return this.modelActions.getFilterCompleted(modelName, _payload)
+          })
+          .catch(error => Observable.of(this.modelActions.newError(modelName, error)))
+        )
+  }
+
   createListModelEpic(modelName: string) {
     return (action$: Observable<TPayloadAction>, store: NgRedux<IAppState>): Observable<FSA<IModel[], IModelMeta>> =>
       action$
@@ -34,8 +54,8 @@ export class ModelEpics {
           ({type}) => type == ModelActions.LIST_MODEL
         )
         .filter(({meta}) => meta['modelName'] === modelName)
-        .switchMap(({payload}) => this.modelService.list(modelServiceOptions[modelName], payload&&payload['q'])
-          .map(data => this.modelActions.listModelCompleted(modelName, data.list))
+        .switchMap(({payload}) => this.modelService.list(modelServiceOptions[modelName], payload)
+          .map(data => this.modelActions.listModelCompleted(modelName, data))
           .catch(error => Observable.of(this.modelActions.newError(modelName, error)))
         )
   }
@@ -50,9 +70,12 @@ export class ModelEpics {
         )
         .filter(({meta}) => meta['modelName'] === modelName)
         .switchMap(({payload}) => Observable.interval(1000).startWith(0).timeInterval().take(5)
-          .mergeMap(() => this.modelService.list(modelServiceOptions[modelName], payload&&payload['q'])
-            .map(data => this.modelActions.listModelCompleted(modelName, data.list))
-            .catch(error => Observable.of(this.modelActions.newError(modelName, error)))
+          .map(() => payload['_reload_query'] ? {q: payload['_reload_query']} : DEFAULT_RELOAD_OPTIONS)
+          .mergeMap(options => {
+              return this.modelService.list(modelServiceOptions[modelName], options)
+                .map(data => this.modelActions.listModelCompleted(modelName, data))
+                .catch(error => Observable.of(this.modelActions.newError(modelName, error)))
+            }
           ).finally(() => store.dispatch(this.modelActions.endReloading(modelName))))
   }
 

@@ -10,6 +10,7 @@ import {createModelReducer} from 'app/store/model/model.reducer';
 import {injectAsyncReducer} from 'app/store/root.reducer';
 
 import {BqsDataSourceRoutingModule} from './bqs-data-source-routing.module';
+import {BqsDataSourceComponent} from './bqs-data-source.component';
 import {BqsDataSourceListComponent} from './bqs-data-source-list/bqs-data-source-list.component';
 import {BqsDataSourceEditComponent} from './bqs-data-source-edit/bqs-data-source-edit.component';
 
@@ -20,7 +21,7 @@ import {BqsDataSourceEditComponent} from './bqs-data-source-edit/bqs-data-source
     BqsAdminSharedModule,
     BqsDataSourceRoutingModule
   ],
-  declarations: [BqsDataSourceListComponent, BqsDataSourceEditComponent]
+  declarations: [BqsDataSourceComponent, BqsDataSourceListComponent, BqsDataSourceEditComponent]
 })
 export class BqsDataSourceModule {
   constructor(private store: NgRedux<IAppState>) {

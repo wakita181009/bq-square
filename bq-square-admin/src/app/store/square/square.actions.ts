@@ -38,9 +38,10 @@ export class SquareActions {
     }
   }
 
-  listSquare(): FSA<void, void> {
+  listSquare(payload?: {[key: string]: string|number|boolean}): FSA<{[key: string]: string|number|boolean}, void> {
     return {
-      type: SquareActions.LIST_SQUARE
+      type: SquareActions.LIST_SQUARE,
+      payload
     }
   }
 

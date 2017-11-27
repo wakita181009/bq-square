@@ -63,5 +63,9 @@ export class BqsSetupComponent implements OnInit {
     })
   }
 
+  login() {
+    window.location.href = "/login";
+  }
+
 
 }

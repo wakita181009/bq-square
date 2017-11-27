@@ -2,37 +2,64 @@
   <mat-icon>add</mat-icon>
 </button>
 
-<mat-progress-bar *ngIf="loading | async" mode="indeterminate"></mat-progress-bar>
-
 <div class="bqs-primary-header">
   <h1>Users</h1>
 </div>
 
-<div class="model-list-table mat-elevation-z8">
+<div class="model-list">
 
-    <div class="table-header">
-      <mat-form-field floatPlaceholder="never">
-        <input matInput #filter placeholder="Filter">
+  <div class="model-list-filter mat-elevation-z8">
+
+    <mat-form-field floatPlaceholder="never">
+      <input matInput #filter placeholder="Filter">
+    </mat-form-field>
+
+    <div>
+      <mat-form-field>
+        <mat-select placeholder="Role"
+                    name="role" [(ngModel)]="roleFilter">
+          <mat-option [value]="'owner'">
+            Owner
+          </mat-option>
+          <mat-option [value]="'admin'">
+            Admin
+          </mat-option>
+          <mat-option [value]="'editor'">
+            Editor
+          </mat-option>
+          <mat-option [value]="'view_admin'">
+            View Admin
+          </mat-option>
+          <mat-option [value]="'viewer'">
+            Viewer
+          </mat-option>
+          <mat-option [value]="'clear'">
+          </mat-option>
+        </mat-select>
       </mat-form-field>
     </div>
 
-    <mat-table #table [dataSource]="user$">
+  </div>
+
+  <div class="model-list-table">
+
+    <mat-table #table [dataSource]="user$" matSort>
 
       <!-- Name Column -->
       <ng-container cdkColumnDef="name">
-        <mat-header-cell *cdkHeaderCellDef> Name</mat-header-cell>
+        <mat-header-cell *cdkHeaderCellDef mat-sort-header> Name</mat-header-cell>
         <mat-cell *cdkCellDef="let row"> {{row.name}}</mat-cell>
       </ng-container>
 
       <!-- Email Column -->
       <ng-container cdkColumnDef="email">
-        <mat-header-cell *cdkHeaderCellDef> Email</mat-header-cell>
+        <mat-header-cell *cdkHeaderCellDef mat-sort-header> Email</mat-header-cell>
         <mat-cell *cdkCellDef="let row"> {{row.email}}</mat-cell>
       </ng-container>
 
       <!-- Role Column -->
       <ng-container cdkColumnDef="role">
-        <mat-header-cell *cdkHeaderCellDef> Role</mat-header-cell>
+        <mat-header-cell *cdkHeaderCellDef mat-sort-header> Role</mat-header-cell>
         <mat-cell *cdkCellDef="let row"> {{row.role}}</mat-cell>
       </ng-container>
 
@@ -51,9 +78,19 @@
         </mat-cell>
       </ng-container>
 
-
       <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *cdkRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
+
+    <div [hidden]="reloading$ | async">
+      <mat-paginator #paginator
+                     [length]="table_length$ | async"
+                     [pageIndex]="0"
+                     [pageSize]="10"
+                     [pageSizeOptions]="[5, 10, 25, 100]">
+      </mat-paginator>
+    </div>
+
+  </div>
 
 </div>

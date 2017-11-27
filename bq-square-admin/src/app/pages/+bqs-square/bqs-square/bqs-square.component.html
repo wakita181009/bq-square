@@ -1,6 +1,21 @@
+<mat-progress-bar *ngIf="loading$ | async" mode="indeterminate"></mat-progress-bar>
+
+<div class="bqs-primary-header flex layout horizontal">
+  <button mat-button class="bqs-square-sidenav-button" [routerLink]="['square', 'list']">
+    <mat-icon>widgets</mat-icon>
+  </button>
+  <div class="bqs-square-header">
+    <h1>{{ (square$ | async)?.name }}</h1>
+    <p>{{ (square$ | async)?.description }}</p>
+    <button mat-mini-fab class="refresh-button" (click)="run_query()">
+      <mat-icon>refresh</mat-icon>
+    </button>
+  </div>
+</div>
+
 <div class="bqs-square layout horizontal wrap center-justified mat-elevation-z8">
 
-  <ng-template ngFor let-item [ngForOf]="square_items$ | async">
+  <ng-template ngFor let-item [ngForOf]="square_active_items$ | async">
     <div class="bqs-square-item-container"
          [class.half]="item.size=='half'"
          [class.full]="item.size=='full'">

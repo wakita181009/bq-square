@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 
-import {FSA, IModel, IModelMeta} from 'app/types';
+import {FSA, IModel, IModelList, IModelMeta} from 'app/types';
 
 interface IPushArrayItemPayload {
   path: string[],
@@ -18,6 +18,8 @@ export class ModelActions {
   constructor() {
   }
 
+  static readonly GET_FILTER = "GET_FILTER";
+  static readonly GET_FILTER_COMPLETED = "GET_FILTER_COMPLETED";
   static readonly LIST_MODEL = 'LIST_MODEL';
   static readonly LIST_MODEL_COMPLETED = 'LIST_MODEL_COMPLETED';
   static readonly CREATE_MODEL = "CREATE_MODEL";
@@ -40,7 +42,23 @@ export class ModelActions {
 
   static readonly REMOVE_ITEMS = "REMOVE_ITEMS";
 
-  listModel(modelName: string, payload?: any): FSA<any, IModelMeta> {
+  getFilter(modelName: string, payload: string): FSA<string, IModelMeta> {
+    return {
+      type: ModelActions.GET_FILTER,
+      meta: {modelName},
+      payload
+    }
+  }
+
+  getFilterCompleted(modelName: string, payload: any): FSA<any, IModelMeta> {
+    return {
+      type: ModelActions.GET_FILTER_COMPLETED,
+      meta: {modelName},
+      payload
+    }
+  }
+
+  listModel(modelName: string, payload?: {[key: string]: string|number|boolean}): FSA<{[key: string]: string|number|boolean}, IModelMeta> {
     return {
       type: ModelActions.LIST_MODEL,
       meta: {modelName},
@@ -48,7 +66,7 @@ export class ModelActions {
     }
   }
 
-  listModelCompleted(modelName: string, payload: IModel[]): FSA<IModel[], IModelMeta> {
+  listModelCompleted(modelName: string, payload: IModelList): FSA<IModelList, IModelMeta> {
     return {
       type: ModelActions.LIST_MODEL_COMPLETED,
       meta: {modelName},

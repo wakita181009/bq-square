@@ -9,7 +9,10 @@ import {yestoday, lastWeekFromYestoday} from 'app/utils/date';
 
 export const squareInitialState: ISquareStore = {
   active: null,
-  items: [],
+  items: {
+    list: [],
+    count: 0
+  },
   global: {
     start_date: {
       id: 'start_date',
@@ -49,7 +52,7 @@ export const squareReducer: Reducer<ISquareStore> =
         return tassign(
           state,
           {
-            items: action.payload['list']
+            items: action.payload
           }
         );
       case SquareActions.RUN_ALL_QUERY:

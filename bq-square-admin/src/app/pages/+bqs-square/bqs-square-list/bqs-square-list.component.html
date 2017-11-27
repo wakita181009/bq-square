@@ -1,0 +1,42 @@
+<mat-progress-bar *ngIf="loading$ | async" mode="indeterminate"></mat-progress-bar>
+
+<div class="bqs-primary-header">
+  <h1>Square List</h1>
+</div>
+
+<div class="model-list">
+
+  <div class="model-list-filter mat-elevation-z8">
+
+    <mat-form-field floatPlaceholder="never">
+      <input matInput #filter placeholder="Filter">
+    </mat-form-field>
+
+  </div>
+
+  <div class="model-list-table">
+    <mat-table #table [dataSource]="square_items$" matSort>
+
+      <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
+
+      <!-- ID Column -->
+      <ng-container cdkColumnDef="id">
+        <mat-header-cell *cdkHeaderCellDef> ID</mat-header-cell>
+        <mat-cell *cdkCellDef="let row"> {{row.id}}</mat-cell>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container cdkColumnDef="name">
+        <mat-header-cell *cdkHeaderCellDef mat-sort-header> Name</mat-header-cell>
+        <mat-cell *cdkCellDef="let row"> {{row.name}}</mat-cell>
+      </ng-container>
+
+
+      <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *cdkRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+  </div>
+
+</div>

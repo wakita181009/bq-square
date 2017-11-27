@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 import json
 import logging
+import webapp2
 from google.appengine.api import memcache
 from jinja2 import Template
 from plugins.base_handler import BaseHandler, user_required
+from plugins.rest import BaseRESTHandler
 from .models import DataSourceModel, QueryModel, ReportModel, GlobalKeyModel, GlobalValueModel
 from src.plugins.utils.to_json import to_json
 from src.plugins.base_handler import import_class
@@ -37,14 +39,25 @@ class GetReportHandler(BaseHandler):
         return self.handle_json(r)
 
 
-class GetReportListHandler(BaseHandler):
+class GetReportListHandler(BaseRESTHandler):
+    @webapp2.cached_property
+    def model(self):
+        return ReportModel
+
     @user_required
     def get(self):
         role = self.user.role
+
+        query = self._filter_query()
+        orders = self._order_query()
+        limit, cursor, offset = self._fetch_query()
+
         if role in ["owner", "admin", "view_admin"]:
-            result, next_cursor, more, ct = ReportModel.list(orders=[ReportModel.order])
+            result, next_cursor, more, ct = ReportModel.list(query, orders or [ReportModel.order], limit, cursor, offset)
             return self.handle_json({
                 "count": ct,
+                "cursor": next_cursor.urlsafe() if next_cursor else None,
+                "more": more,
                 "list": ReportModel.models_to_dict_list(result)
             })
 

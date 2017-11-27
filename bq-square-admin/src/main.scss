@@ -2,22 +2,20 @@
 @import './app-theme';
 @import './styles/typography';
 
-
 // Include material core styles.
 @include mat-core();
 @include docs-site-typography();
 
-
 // Define the light theme.
 $primary: mat-palette($mat-cyan);
-$accent:  mat-palette($mat-amber, A200, A100, A400);
+$accent: mat-palette($mat-amber, A200, A100, A400);
 
 $theme: mat-light-theme($primary, $accent);
 @include angular-material-theme($theme);
 @include material-docs-app-theme($theme);
 
 body {
-  font-family: "Roboto","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+  font-family: "Roboto", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   margin: 0;
 }
 
@@ -56,6 +54,13 @@ pre {
     left: 80%;
     position: relative;
   }
+
+  @media screen and (max-width: 720px) {
+    h1 {
+      padding: 15px 15px 5px 15px;
+    }
+  }
+
 }
 
 code {
@@ -74,6 +79,20 @@ code {
     flex-grow: 1;
     height: 100%;
 
+    bqs-data-source-list, bqs-global-key-list, bqs-query-list,
+    bqs-report-list, bqs-user-list {
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -ms-flex-direction: column;
+      -webkit-flex-direction: column;
+      flex-direction: column;
+    }
+
+    .mat-progress-bar {
+      position: absolute;
+    }
+
     .fab {
       position: absolute;
       right: 20px;
@@ -90,9 +109,17 @@ md-spinner {
   height: 30px;
 }
 
-.cdk-overlay-pane {
-  max-height: 90%;
-  overflow: scroll;
+tag-input {
+  padding-bottom: 1.25em;
+
+  .ng2-tag-input__text-input {
+    padding: 0 !important;
+  }
+
+  .ng2-tag-input {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.42) !important;
+  }
+
 }
 
 plotlychart {
@@ -104,41 +131,93 @@ plotlychart {
   width: 100%;
 }
 
-.mat-header-cell, .mat-cell {
-  min-width: 130px;
+mat-table {
+  .mat-header-cell {
+    min-width: 130px;
+    font-size: 12px;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.54);
+  }
+
+  .mat-cell {
+    min-width: 130px;
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.87);
+    padding-right: 3px;
+    word-wrap: break-word;
+  }
 }
 
-.mat-header-cell {
-  font-size: 12px;
-  font-weight: bold;
-  color: rgba(0, 0, 0, 0.54);
-}
-
-.mat-cell {
-  font-size: 13px;
-  color: rgba(0, 0, 0, 0.87);
-}
-
-
-.model-list-table {
+.model-edit {
   width: 90%;
   margin: 20px auto;
+}
 
+.model-list {
+  width: 100%;
+  margin: 8px auto;
+  display: -ms-flexbox;
+  display: -webkit-flex;
   display: flex;
-  flex-direction: column;
-  max-height: calc(100% - 200px);
-  max-height: -webkit-calc(100% - 200px);
-  max-height: -moz-calc(100% - 200px);
-  min-width: 300px;
-  overflow: scroll;
+  -ms-flex-direction: row-reverse;
+  -webkit-flex-direction: row-reverse;
+  flex-direction: row-reverse;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
 
-  .table-header {
-    min-height: 64px;
-    display: flex;
-    align-items: baseline;
-    padding: 8px 24px 0;
-    justify-content: space-between;
+  > div {
+    padding: 0 8px;
+  }
+
+  .model-list-table {
+    overflow: scroll;
+    margin-bottom: 10px;
+
+    > mat-table {
+      display: inline-block;
+    }
+
+  }
+
+  .model-list-filter {
     font-size: 13px;
+    padding-top: 25px;
+    z-index: 5;
+    flex: 1;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -ms-flex-direction: column;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    margin: 0 0 60px 0;
+    max-width: 250px;
+
+    > * {
+      margin: 8px 0 0 15px;
+      width: 200px;
+    }
+
+    > button {
+      max-width: 200px;
+    }
+  }
+
+  @media screen and (max-width: 720px) {
+    height: auto;
+    display: block;
+
+    > .model-list-table, .model-list-filter {
+      margin: 10px 8px;
+    }
+
+    > .model-list-filter {
+      max-width: none;
+      > * {
+        width: auto;
+      }
+    }
   }
 
 }
@@ -146,9 +225,12 @@ plotlychart {
 .model-edit > div {
   width: 90%;
   margin: 20px auto;
+  display: -ms-flexbox;
+  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column; /* Safari */
-  flex-direction:         column;
+  -ms-flex-direction: column;
+  -webkit-flex-direction: column;
+  flex-direction: column;
 
   > * {
     margin: 5px 25px;

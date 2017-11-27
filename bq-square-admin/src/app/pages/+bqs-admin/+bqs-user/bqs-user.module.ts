@@ -9,6 +9,7 @@ import {createModelReducer} from 'app/store/model/model.reducer';
 import {injectAsyncReducer} from 'app/store/root.reducer';
 
 import {BqsUserRoutingModule} from './bqs-user-routing.module';
+import {BqsUserComponent} from './bqs-user.component';
 import {BqsUserListComponent} from './bqs-user-list/bqs-user-list.component';
 import {BqsUserEditComponent} from './bqs-user-edit/bqs-user-edit.component';
 
@@ -18,7 +19,7 @@ import {BqsUserEditComponent} from './bqs-user-edit/bqs-user-edit.component';
     SharedModule,
     BqsUserRoutingModule
   ],
-  declarations: [BqsUserListComponent, BqsUserEditComponent]
+  declarations: [BqsUserComponent, BqsUserListComponent, BqsUserEditComponent]
 })
 export class BqsUserModule {
   constructor(private store: NgRedux<IAppState>) {

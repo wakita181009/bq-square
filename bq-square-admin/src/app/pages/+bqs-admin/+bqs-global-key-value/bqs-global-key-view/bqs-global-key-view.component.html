@@ -7,7 +7,9 @@
 <mat-progress-bar *ngIf="(global_key$ | async)?.loading" mode="indeterminate"></mat-progress-bar>
 
 <ng-template [ngIf]="isPredefined">
-  <button mat-button color="primary" (click)="addGlobalValue()">Add a value</button>
+  <div>
+    <button mat-button color="primary" (click)="addGlobalValue()">Add a value</button>
+  </div>
 
   <form class="global-value-edit mat-elevation-z8" *ngIf="editMode == 'Create'"
         [connect]="['admin', 'global_value', 'form']">

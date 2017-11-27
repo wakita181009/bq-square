@@ -17,7 +17,7 @@ export const userEmailsSelector = createSelector(
   createModelStateSelector('user'),
   (userModelState: IModelStore) => {
     let arr = [];
-    for (let item of userModelState.items) {
+    for (let item of userModelState.items.list) {
       arr.push(item.email)
     }
     return arr
@@ -28,7 +28,7 @@ export const dataSourceIDSelector = createSelector(
   createModelStateSelector('data_source'),
   (dataSourceModelState: IModelStore) => {
     let arr = [];
-    for (let item of dataSourceModelState.items) {
+    for (let item of dataSourceModelState.items.list) {
       arr.push(item.id)
     }
     return arr

@@ -10,6 +10,7 @@ import {createModelReducer} from 'app/store/model/model.reducer';
 import {injectAsyncReducer} from 'app/store/root.reducer';
 
 import {BqsReportRoutingModule} from './bqs-report-routing.module';
+import {BqsReportComponent} from './bqs-report.component';
 import {BqsReportListComponent} from './bqs-report-list/bqs-report-list.component';
 import {BqsReportEditComponent} from './bqs-report-edit/bqs-report-edit.component';
 
@@ -20,7 +21,7 @@ import {BqsReportEditComponent} from './bqs-report-edit/bqs-report-edit.componen
     BqsAdminSharedModule,
     BqsReportRoutingModule
   ],
-  declarations: [BqsReportListComponent, BqsReportEditComponent]
+  declarations: [BqsReportComponent, BqsReportListComponent, BqsReportEditComponent]
 })
 export class BqsReportModule {
   constructor(private store: NgRedux<IAppState>) {

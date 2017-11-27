@@ -1,6 +1,5 @@
 import {Injectable}     from '@angular/core';
-import {Response} from '@angular/http';
-import {AuthHttp} from 'angular2-jwt';
+import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
 
@@ -9,15 +8,10 @@ import {Observable} from 'rxjs/Observable';
 @Injectable()
 export class BaseService {
     constructor(public router: Router,
-                public http: AuthHttp) {
+                public http: HttpClient) {
     }
 
     baseURL: string;
-
-    extractData(res: Response) {
-        let body = res.json();
-        return body || {};
-    }
 
     handleError(self: any, error: any) {
         // In a real world app, we might use a remote logging infrastructure
