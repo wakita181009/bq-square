@@ -10,7 +10,7 @@ import {environment} from '../../../environments/environment';
 import {IModelServiceOptions, IModel, IModelList} from 'app/types';
 
 
-const VALID_LIST_PARAMS = ['q', 'o', 'limit', 'cursor', 'offset'];
+const VALID_LIST_PARAMS = ['q', 'o', 'limit', 'cursor', 'offset', 'distinct_prop'];
 
 function _genParmas(params: {[key: string]: string|number|boolean}, httpParams = new HttpParams()): HttpParams {
   Object.keys(params)
