@@ -17,12 +17,10 @@ import {SquareActions} from 'app/store/square/square.actions';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BqsSquareListComponent implements OnInit {
-  @select(['auth', 'user', 'role']) user_role: Observable<string>;
-
   @select(squareLoadingSelector) loading$: Observable<boolean>;
   @select(['square', 'error']) square_error$: Observable<any>;
 
-  displayedColumns = ['id', 'name'];
+  displayedColumns = ['id', 'name', 'control'];
   square_items$: BqsSquareListDataSource | null;
   @select(['square', 'items', 'count']) table_length$: Observable<number>;
 

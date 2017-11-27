@@ -32,6 +32,16 @@
         <mat-cell *cdkCellDef="let row"> {{row.name}}</mat-cell>
       </ng-container>
 
+      <!-- Control Column -->
+      <ng-container cdkColumnDef="control">
+        <mat-header-cell *cdkHeaderCellDef></mat-header-cell>
+        <mat-cell *cdkCellDef="let row">
+          <button mat-icon-button routerLink="/square/{{row.urlsafe}}">
+            <mat-icon>remove_red_eye</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
 
       <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *cdkRowDef="let row; columns: displayedColumns;"></mat-row>
