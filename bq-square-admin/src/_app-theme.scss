@@ -1,6 +1,5 @@
 @import '~@angular/material/theming';
 //@import './app/pages/homepage/homepage-theme';
-@import './app/pages/bqs-square-sidenav/bqs-square-sidenav-theme';
 //@import './app/pages/component-viewer/component-viewer-theme';
 //@import './app/pages/component-list/component-list-theme';
 //@import './app/pages/component-category-list/component-category-list-theme';
@@ -37,7 +36,6 @@
 
   @include docs-site-typography-theme($theme);
   @include nav-bar-theme($theme);
-  @include bqs-square-sidenav-theme($theme);
 //  @include home-page-theme($theme);
 //  @include component-viewer-theme($theme);
 //  @include component-list-theme($theme);
