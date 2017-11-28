@@ -31,6 +31,25 @@ indexes:
   - name: deleted
   - name: type
   - name: created
+
+- kind: DataSourceModel
+  properties:
+  - name: deleted
+  - name: type
+  - name: created
+    direction: desc
+
+- kind: DataSourceModel
+  properties:
+  - name: deleted
+  - name: type
+  - name: updated
+
+- kind: DataSourceModel
+  properties:
+  - name: deleted
+  - name: type
+  - name: updated
     direction: desc
 
 - kind: DataSourceModel
@@ -83,6 +102,32 @@ indexes:
   properties:
   - name: deleted
   - name: type
+  - name: display_name
+
+- kind: GlobalKeyModel
+  properties:
+  - name: deleted
+  - name: type
+  - name: display_name
+    direction: desc
+
+- kind: GlobalKeyModel
+  properties:
+  - name: deleted
+  - name: type
+  - name: updated
+
+- kind: GlobalKeyModel
+  properties:
+  - name: deleted
+  - name: type
+  - name: updated
+    direction: desc
+
+- kind: GlobalKeyModel
+  properties:
+  - name: deleted
+  - name: type
     direction: desc
 
 - kind: GlobalKeyModel
@@ -100,7 +145,112 @@ indexes:
   properties:
   - name: data_source_id
   - name: deleted
+  - name: cache
+
+- kind: QueryModel
+  properties:
+  - name: data_source_id
+  - name: deleted
+  - name: cache
+    direction: desc
+
+- kind: QueryModel
+  properties:
+  - name: data_source_id
+  - name: deleted
   - name: created
+
+- kind: QueryModel
+  properties:
+  - name: data_source_id
+  - name: deleted
+  - name: created
+    direction: desc
+
+- kind: QueryModel
+  properties:
+  - name: data_source_id
+  - name: deleted
+  - name: name
+
+- kind: QueryModel
+  properties:
+  - name: data_source_id
+  - name: deleted
+  - name: name
+    direction: desc
+
+- kind: QueryModel
+  properties:
+  - name: data_source_id
+  - name: deleted
+  - name: tag
+  - name: cache
+
+- kind: QueryModel
+  properties:
+  - name: data_source_id
+  - name: deleted
+  - name: tag
+  - name: cache
+    direction: desc
+
+- kind: QueryModel
+  properties:
+  - name: data_source_id
+  - name: deleted
+  - name: tag
+  - name: created
+
+- kind: QueryModel
+  properties:
+  - name: data_source_id
+  - name: deleted
+  - name: tag
+  - name: created
+    direction: desc
+
+- kind: QueryModel
+  properties:
+  - name: data_source_id
+  - name: deleted
+  - name: tag
+  - name: name
+
+- kind: QueryModel
+  properties:
+  - name: data_source_id
+  - name: deleted
+  - name: tag
+  - name: name
+    direction: desc
+
+- kind: QueryModel
+  properties:
+  - name: data_source_id
+  - name: deleted
+  - name: tag
+  - name: updated
+
+- kind: QueryModel
+  properties:
+  - name: data_source_id
+  - name: deleted
+  - name: tag
+  - name: updated
+    direction: desc
+
+- kind: QueryModel
+  properties:
+  - name: data_source_id
+  - name: deleted
+  - name: updated
+
+- kind: QueryModel
+  properties:
+  - name: data_source_id
+  - name: deleted
+  - name: updated
     direction: desc
 
 - kind: QueryModel
@@ -146,7 +296,65 @@ indexes:
   properties:
   - name: deleted
   - name: tag
+  - name: cache
+
+- kind: QueryModel
+  properties:
+  - name: deleted
+  - name: tag
+  - name: cache
+    direction: desc
+
+- kind: QueryModel
+  properties:
+  - name: deleted
+  - name: tag
   - name: created
+
+- kind: QueryModel
+  properties:
+  - name: deleted
+  - name: tag
+  - name: created
+    direction: desc
+
+- kind: QueryModel
+  properties:
+  - name: deleted
+  - name: tag
+  - name: data_source_id
+
+- kind: QueryModel
+  properties:
+  - name: deleted
+  - name: tag
+  - name: data_source_id
+    direction: desc
+
+- kind: QueryModel
+  properties:
+  - name: deleted
+  - name: tag
+  - name: name
+
+- kind: QueryModel
+  properties:
+  - name: deleted
+  - name: tag
+  - name: name
+    direction: desc
+
+- kind: QueryModel
+  properties:
+  - name: deleted
+  - name: tag
+  - name: updated
+
+- kind: QueryModel
+  properties:
+  - name: deleted
+  - name: tag
+  - name: updated
     direction: desc
 
 - kind: QueryModel
@@ -197,7 +405,63 @@ indexes:
   properties:
   - name: deleted
   - name: tag
+
+- kind: ReportModel
+  properties:
+  - name: deleted
+  - name: tag
   - name: created
+
+- kind: ReportModel
+  properties:
+  - name: deleted
+  - name: tag
+  - name: created
+    direction: desc
+
+- kind: ReportModel
+  properties:
+  - name: deleted
+  - name: tag
+  - name: name
+
+- kind: ReportModel
+  properties:
+  - name: deleted
+  - name: tag
+  - name: name
+    direction: desc
+
+- kind: ReportModel
+  properties:
+  - name: deleted
+  - name: tag
+  - name: order
+
+- kind: ReportModel
+  properties:
+  - name: deleted
+  - name: tag
+  - name: order
+    direction: desc
+
+- kind: ReportModel
+  properties:
+  - name: deleted
+  - name: tag
+  - name: updated
+
+- kind: ReportModel
+  properties:
+  - name: deleted
+  - name: tag
+  - name: updated
+    direction: desc
+
+- kind: ReportModel
+  properties:
+  - name: deleted
+  - name: tag
     direction: desc
 
 - kind: ReportModel
@@ -231,6 +495,17 @@ indexes:
 - kind: UserModel
   properties:
   - name: deleted
+  - name: name
+
+- kind: UserModel
+  properties:
+  - name: deleted
+  - name: name
+    direction: desc
+
+- kind: UserModel
+  properties:
+  - name: deleted
   - name: role
 
 - kind: UserModel
@@ -238,6 +513,32 @@ indexes:
   - name: deleted
   - name: role
   - name: created
+    direction: desc
+
+- kind: UserModel
+  properties:
+  - name: deleted
+  - name: role
+  - name: email
+
+- kind: UserModel
+  properties:
+  - name: deleted
+  - name: role
+  - name: email
+    direction: desc
+
+- kind: UserModel
+  properties:
+  - name: deleted
+  - name: role
+  - name: name
+
+- kind: UserModel
+  properties:
+  - name: deleted
+  - name: role
+  - name: name
     direction: desc
 
 - kind: UserModel
