@@ -72,6 +72,12 @@ indexes:
 - kind: GlobalKeyModel
   properties:
   - name: deleted
+  - name: type
+  - name: created
+
+- kind: GlobalKeyModel
+  properties:
+  - name: deleted
   - name: created
 
 - kind: GlobalKeyModel
@@ -274,6 +280,11 @@ indexes:
   - name: deleted
   - name: created
     direction: desc
+
+- kind: QueryModel
+  properties:
+  - name: deleted
+  - name: data_source_id
 
 - kind: QueryModel
   properties:
