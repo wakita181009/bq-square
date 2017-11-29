@@ -72,30 +72,30 @@ indexes:
 - kind: GlobalKeyModel
   properties:
   - name: deleted
+  - name: created
+
+- kind: GlobalKeyModel
+  properties:
+  - name: deleted
+  - name: created
+    direction: desc
+
+- kind: GlobalKeyModel
+  properties:
+  - name: deleted
+  - name: display_name
+
+- kind: GlobalKeyModel
+  properties:
+  - name: deleted
+  - name: display_name
+    direction: desc
+
+- kind: GlobalKeyModel
+  properties:
+  - name: deleted
   - name: type
   - name: created
-
-- kind: GlobalKeyModel
-  properties:
-  - name: deleted
-  - name: created
-
-- kind: GlobalKeyModel
-  properties:
-  - name: deleted
-  - name: created
-    direction: desc
-
-- kind: GlobalKeyModel
-  properties:
-  - name: deleted
-  - name: display_name
-
-- kind: GlobalKeyModel
-  properties:
-  - name: deleted
-  - name: display_name
-    direction: desc
 
 - kind: GlobalKeyModel
   properties:
