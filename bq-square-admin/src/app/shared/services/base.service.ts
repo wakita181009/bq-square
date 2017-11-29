@@ -4,7 +4,6 @@ import {Router} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
 
 
-
 @Injectable()
 export class BaseService {
     constructor(public router: Router,

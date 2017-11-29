@@ -1,8 +1,19 @@
 import {Component, ViewEncapsulation} from '@angular/core';
 import {select} from '@angular-redux/store';
 import {Observable} from 'rxjs/Observable';
+import {environment} from '../environments/environment';
+import {NgRedux} from '@angular-redux/store';
 
 import {AuthService} from './auth/auth.service';
+import {IAppState} from 'app/types';
+import {AuthActions} from 'app/store/auth/auth.actions';
+
+declare let gapi: any;
+declare let window: any;
+
+const PUBLIC_KEY = environment['PUBLIC_KEY'];
+const GOOGLE_CLIENT_ID = environment['GOOGLE_CLIENT_ID'];
+
 
 @Component({
   selector: 'bqs-root',
@@ -19,7 +30,29 @@ export class AppComponent {
 
   @select(['auth']) auth$: Observable<any>;
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService,
+              private store: NgRedux<IAppState>,
+              private authActions: AuthActions) {
+
+    gapi.load('auth2', () => {
+      let auth2 = window.auth2 = gapi.auth2.init({
+        client_id: GOOGLE_CLIENT_ID,
+        scope: 'profile email'
+      });
+
+      auth2.then(() => {
+        if (auth2.isSignedIn.get()) {
+          let id_token = auth2.currentUser.get().getAuthResponse().id_token;
+          console.log("Login with google");
+          this.store.dispatch(this.authActions.login(id_token))
+        } else {
+          if (window.location.pathname === ('/login')) {
+            this.store.dispatch(this.authActions.authChanged(null));
+          }
+        }
+      });
+    });
+
   }
 
   ngOnInit() {

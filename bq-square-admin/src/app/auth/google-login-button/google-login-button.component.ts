@@ -1,9 +1,13 @@
-import {Component, OnInit, ChangeDetectionStrategy, NgZone} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {Router} from '@angular/router';
-import {AuthService} from 'app/auth/auth.service';
+import {NgRedux} from '@angular-redux/store';
+import {select} from '@angular-redux/store';
+import {Observable} from 'rxjs/Observable';
+
+import {IAppState} from 'app/types';
+import {AuthActions} from 'app/store/auth/auth.actions';
 
 declare let auth2: any;
-declare let window: any;
 
 @Component({
   selector: 'google-login-button',
@@ -13,42 +17,38 @@ declare let window: any;
 })
 export class GoogleLoginButtonComponent implements OnInit {
 
+  @select(['auth', 'user']) user$: Observable<any>;
+
   constructor(private router: Router,
-              private zone: NgZone,
-              private authService: AuthService) {
+              private store: NgRedux<IAppState>,
+              private authActions: AuthActions) {
   }
 
   ngOnInit() {
   }
 
-  onSignIn = (googleUser) => {
-    let id_token = googleUser.getAuthResponse().id_token;
-    // console.log("ID Token: " + id_token);
-
-    this.authService.login(id_token)
-      .subscribe(
-        result => {
-          if (result) {
-            let redirectUrl = localStorage.getItem('redirect_url');
-            if (redirectUrl) {
-              localStorage.removeItem('redirect_url');
-              this.zone.run(() => this.router.navigate([redirectUrl]));
-            } else {
-              this.zone.run(() => this.router.navigate(['/']));
-            }
-          }
-        },
-        error => {
-          if (error.status == '403' && error._body.indexOf("NeedSetupError") !== -1) {
-            console.log("NeedSetupError.....redirect to '/setup'!");
-            this.zone.run(() => this.router.navigate(['/setup']));
-          }
-        })
-  };
-
   googleLogin() {
+    let user_stream = this.user$
+      .filter(user => !!user)
+      .take(1)
+      .subscribe(user => {
+        if (!!user) {
+          let redirectUrl = localStorage.getItem('redirect_url');
+          if (!!redirectUrl) {
+            localStorage.removeItem('redirect_url');
+            this.router.navigate(['/admin/query'])
+          } else {
+            this.router.navigate(['/'])
+          }
+        }
+        user_stream.unsubscribe()
+      });
+
     auth2.then(() => {
-      auth2.signIn().then(this.onSignIn);
+      auth2.signIn().then(googleUser => {
+        let id_token = googleUser.getAuthResponse().id_token;
+        this.store.dispatch(this.authActions.login(id_token))
+      });
     });
   }
 

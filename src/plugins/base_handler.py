@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import re
+import datetime
 import webapp2
 from google.appengine.api import memcache
 from .utils.to_json import to_json
@@ -15,6 +16,7 @@ jwt.register_algorithm('ES256', ECAlgorithm(ECAlgorithm.SHA256))
 JWT_ALGORITHM = os.environ['JWT_ALGORITHM']
 JWT_PUBLIC_KEY = os.environ['JWT_PUBLIC_KEY']
 JWT_PRIVATE_KEY = os.environ['JWT_PRIVATE_KEY']
+JWT_EXP = os.environ.get('JWT_EXP')
 CLIENT = os.environ['CLIENT']
 
 OWNER = os.environ['OWNER']
@@ -102,12 +104,15 @@ class BaseHandler(webapp2.RequestHandler):
     def decode_jwt_token(jwt_token):
         try:
             return jwt.decode(
-                jwt_token, JWT_PUBLIC_KEY, algorithms=[JWT_ALGORITHM])
+                jwt_token, JWT_PUBLIC_KEY, issuer=CLIENT, algorithms=[JWT_ALGORITHM])
         except:
             return None
 
     @staticmethod
     def encode_jwt_token(payload):
+        payload['exp'] = datetime.datetime.utcnow() + datetime.timedelta(days=JWT_EXP or 7)
+        payload['iat'] = datetime.datetime.utcnow()
+        payload['iss'] = CLIENT
         return jwt.encode(payload, JWT_PRIVATE_KEY, JWT_ALGORITHM)
 
     def handle_error(self, e, status=400):

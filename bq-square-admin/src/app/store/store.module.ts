@@ -17,6 +17,7 @@ import {RootEpics} from './root.epics';
 import {SquareEpics} from './square/square.epics';
 import {SquareActions} from './square/square.actions';
 
+import {AuthEpics} from './auth/auth.epics';
 import {AuthActions} from './auth/auth.actions';
 
 import {ModelActions} from './model/model.actions';
@@ -33,7 +34,8 @@ import {environment} from '../../environments/environment';
     SquareEpics,
     ModelActions,
     ModelEpics,
-    AuthActions
+    AuthActions,
+    AuthEpics
   ]
 })
 export class StoreModule {
