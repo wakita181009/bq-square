@@ -147,6 +147,13 @@ indexes:
   - name: updated
     direction: desc
 
+- kind: GlobalValueModel
+  ancestor: yes
+  properties:
+  - name: deleted
+  - name: created
+    direction: desc
+
 - kind: QueryModel
   properties:
   - name: data_source_id
