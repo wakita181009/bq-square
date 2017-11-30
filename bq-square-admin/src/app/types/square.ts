@@ -5,6 +5,7 @@ export interface ISquareItem {
   multi?: true,
   query_url: string,
   format?: any[],
+  override_params?: {[key: string]: string},
   result?: {
     x: string[],
     y: string[],

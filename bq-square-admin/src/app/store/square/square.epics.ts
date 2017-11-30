@@ -36,7 +36,7 @@ export class SquareEpics {
           })
           .filter(({item}) => item.type.indexOf('input_') !== 0)
           .mergeMap(obj =>
-            this.squareService.runQuery(obj.item.query_url, obj.item.type, obj.item.format, store.getState().square.global)
+            this.squareService.runQuery(obj.item.query_url, obj.item.type, obj.item.format, store.getState().square.global, obj.item.override_params)
               .map(data => this.squareActions.runQueryCompleted({
                 result: data.result,
                 index: obj.index

@@ -11,7 +11,29 @@ import {format_date} from 'app/utils/date';
 
 const VALID_LIST_PARAMS = ['q', 'o', 'limit', 'cursor', 'offset'];
 
-function _genParmas(params: {[key: string]: string|number|boolean}, httpParams = new HttpParams()): HttpParams {
+
+function _genRunQueryParams(params: any = {}, override_params: any = null, httpParams = new HttpParams()) {
+  Object.keys(params)
+    .filter(key => !!params[key]['value'] &&
+      (!(typeof(params[key]['value']) === 'string' || Array.isArray(params[key]['value'])) || params[key]['value'].length >= 0)
+    )
+    .forEach(key => {
+      if (params[key]['value'] instanceof Date) {
+        httpParams = httpParams.set(key, format_date(params[key]['value']))
+      } else {
+        httpParams = httpParams.set(key, String(params[key]['value']))
+      }
+    });
+
+  if (!override_params) return httpParams;
+
+  Object.keys(override_params)
+    .forEach(key => httpParams = httpParams.set(key, String(override_params[key])));
+
+  return httpParams
+}
+
+function _genReportListParmas(params: {[key: string]: string|number|boolean}, httpParams = new HttpParams()): HttpParams {
   Object.keys(params)
     .filter(key => VALID_LIST_PARAMS.indexOf(key) !== -1)
     .forEach(key => {
@@ -29,19 +51,14 @@ export class SquareService extends BaseService {
 
   baseURL: string = `${environment.API_URL}`;
 
-  runQuery(query_url, type = null, format = null, params: any = {}): Observable<ISquareItem> {
+  runQuery(query_url, type = null, format = null, params: any = {}, override_params: any = null): Observable<ISquareItem> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-    });
-    let _params = this.validateParams(params);
-    let httpParams = new HttpParams();
-    if (_params) Object.keys(_params).forEach((key) => {
-      httpParams = httpParams.append(key, _params[key]);
     });
 
     let options = ({
       headers: headers,
-      params: httpParams
+      params: _genRunQueryParams(params, override_params)
     });
     let body;
     if (format) body = JSON.stringify({format: format});
@@ -68,7 +85,7 @@ export class SquareService extends BaseService {
     });
     let options = {
       headers: headers,
-      params: params && _genParmas(params)
+      params: params && _genReportListParmas(params)
     };
     let url = `${this.baseURL}/getReportList`;
     return this.http.get(url, options)
@@ -91,7 +108,7 @@ export class SquareService extends BaseService {
     let obj = clone(o);
     let result = {};
     for (let _key in obj) {
-      if (obj.hasOwnProperty(_key)&&obj[_key]['value']) {
+      if (obj.hasOwnProperty(_key) && obj[_key]['value']) {
         let value = obj[_key]['value'];
         if (
           !(((typeof(value) == 'string')
