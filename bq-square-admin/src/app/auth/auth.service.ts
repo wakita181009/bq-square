@@ -102,11 +102,18 @@ export class AuthService {
 
   public logout(): void {
     // clear token remove user from local storage to log user out
-    window.auth2.signOut().then(() => {
+    try {
+      window.auth2.signOut().then(() => {
+        localStorage.removeItem('bqs_token');
+        console.log("Logout.....redirect to '/login'!");
+        window.location.href = '/login';
+      });
+    }
+    catch (e) {
       localStorage.removeItem('bqs_token');
       console.log("Logout.....redirect to '/login'!");
       window.location.href = '/login';
-    });
+    }
   }
 
   public getNavbar(): any {
