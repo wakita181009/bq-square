@@ -21,6 +21,13 @@ export class AuthService {
 
   constructor(private http: Http,
               private router: Router) {
+    gapi.load('auth2', () => {
+      let auth2 = window.auth2 = gapi.auth2.init({
+        client_id: GOOGLE_CLIENT_ID,
+        scope: 'profile email'
+      });
+    });
+
     let token = this._getTokenFromLocalStorage();
     if (token) this.bqs_token = token;
   }

@@ -33,26 +33,7 @@ export class AppComponent {
   constructor(private authService: AuthService,
               private store: NgRedux<IAppState>,
               private authActions: AuthActions) {
-
-    gapi.load('auth2', () => {
-      let auth2 = window.auth2 = gapi.auth2.init({
-        client_id: GOOGLE_CLIENT_ID,
-        scope: 'profile email'
-      });
-
-      auth2.then(() => {
-        if (auth2.isSignedIn.get()) {
-          let id_token = auth2.currentUser.get().getAuthResponse().id_token;
-          console.log("Login with google");
-          this.store.dispatch(this.authActions.login(id_token))
-        } else {
-          if (window.location.pathname === ('/login')) {
-            this.store.dispatch(this.authActions.authChanged(null));
-          }
-        }
-      });
-    });
-
+    this.store.dispatch(this.authActions.authChanged(this.authService.authenticated()));
   }
 
   ngOnInit() {
