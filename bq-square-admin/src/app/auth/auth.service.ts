@@ -82,9 +82,9 @@ export class AuthService {
 
   private _validJwtToken(sJWT): boolean {
     return sJWT ? KJUR.jws.JWS.verifyJWT(sJWT, PUBLIC_KEY, {
-      alg: ['RS256'],
-      iss: [window.location.origin]
-    }) : false
+        alg: ['RS256'],
+        iss: [window.location.origin]
+      }) : false
   }
 
   // Shortcut to get user object
@@ -102,18 +102,9 @@ export class AuthService {
 
   public logout(): void {
     // clear token remove user from local storage to log user out
-    try {
-      window.auth2.signOut().then(() => {
-        localStorage.removeItem('bqs_token');
-        console.log("Logout.....redirect to '/login'!");
-        window.location.href = '/login';
-      });
-    }
-    catch (e) {
-      localStorage.removeItem('bqs_token');
-      console.log("Logout.....redirect to '/login'!");
-      window.location.href = '/login';
-    }
+    localStorage.removeItem('bqs_token');
+    console.log("Logout.....redirect to '/login'!");
+    window.location.href = '/login';
   }
 
   public getNavbar(): any {

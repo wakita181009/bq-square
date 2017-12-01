@@ -33,7 +33,10 @@ export class AppComponent {
   constructor(private authService: AuthService,
               private store: NgRedux<IAppState>,
               private authActions: AuthActions) {
-    this.store.dispatch(this.authActions.authChanged(this.authService.authenticated()));
+    let user = this.authService.authenticated();
+    if (user || window.location.pathname === '/login') {
+      this.store.dispatch(this.authActions.authChanged(user));
+    }
   }
 
   ngOnInit() {
