@@ -175,10 +175,6 @@ mat-table {
     margin-bottom: 10px;
     overflow-y: scroll;
 
-    > mat-table {
-      display: inline-block;
-    }
-
   }
 
   .model-list-filter {
