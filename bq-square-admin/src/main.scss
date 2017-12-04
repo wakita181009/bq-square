@@ -159,7 +159,6 @@ mat-table {
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
-  overflow: scroll;
   -ms-flex-direction: row-reverse;
   -webkit-flex-direction: row-reverse;
   flex-direction: row-reverse;
@@ -172,8 +171,8 @@ mat-table {
   }
 
   .model-list-table {
-    overflow: scroll;
     margin-bottom: 10px;
+    overflow-y: scroll;
 
     > mat-table {
       display: inline-block;
