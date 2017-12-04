@@ -87,6 +87,7 @@ code {
       -ms-flex-direction: column;
       -webkit-flex-direction: column;
       flex-direction: column;
+      overflow: scroll;
     }
 
     .mat-progress-bar {
