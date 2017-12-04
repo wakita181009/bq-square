@@ -173,8 +173,10 @@ mat-table {
 
   .model-list-table {
     margin-bottom: 10px;
-    overflow-y: scroll;
 
+    > .mat-table {
+      overflow-y: scroll;
+    }
   }
 
   .model-list-filter {
