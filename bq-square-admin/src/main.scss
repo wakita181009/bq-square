@@ -159,6 +159,7 @@ mat-table {
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
+  overflow: scroll;
   -ms-flex-direction: row-reverse;
   -webkit-flex-direction: row-reverse;
   flex-direction: row-reverse;
