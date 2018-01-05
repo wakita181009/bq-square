@@ -261,6 +261,9 @@ class RunQueryHandler(BaseHandler):
                                 "data": [row[result_index] for row in result_obj['rows']],
                                 "label": i,
                                 "yAxisID": "y-axis-{0}".format(index + 1)
+                            } if f['multi_axis'] is True else {
+                                "data": [row[result_index] for row in result_obj['rows']],
+                                "label": i
                             })
                         else:
                             _list.append({
