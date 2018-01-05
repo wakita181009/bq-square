@@ -16,8 +16,8 @@ const OPTIONS_LINE = {
       {
         type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
         display: true,
-        position: "left",
-        id: "y-axis-1",
+        // position: "left",
+        // id: "y-axis-1",
         ticks: {
           beginAtZero: true,
           userCallback: thousandsSeparator //カンマ区切りのコールバック関数を指定
